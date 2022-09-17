@@ -1,1 +1,1 @@
-print(100 % 1000)
+print(sorted(str(102)))
