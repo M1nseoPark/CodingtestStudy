@@ -1,1 +1,1 @@
-print('print("Hello\\nWorld")')
+print(100 % 1000)
