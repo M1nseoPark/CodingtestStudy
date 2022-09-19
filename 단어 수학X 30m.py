@@ -1,30 +1,37 @@
 n = int(input())
 word = []
-length = []
+maxi = 0
 match = {}
 
-for i in range(n):
+for _ in range(n):
     w = input()
     word.append(w)
-    length.append([len(w), i])
+    if maxi <= len(w):
+        maxi = len(w)
 
-length.sort(reverse=True)
-answer = 0
-k = 9
-for i in range(n):
-    temp = ''
-    for j in range(length[i][0]):
-        if (len(match) == 0) or (word[length[i][1]][j] not in match):
-            match[word[length[i][1]][j]] = k
-            temp += str(k)
-            k -= 1
-        elif word[length[i][1]][j] in match:
-            temp += str(match[word[length[i][1]][j]])
+change = [0 for _ in range(n)]
+temp = 9
+for i in range(maxi-1, -1, -1):
+    for j in range(n):
+        if len(word[j]) == (i + 1):
+            if len(match) == 0:
+                change[j] += temp * (10 ** i)
+                match[word[j][0]] = temp
+                temp -= 1
+            elif word[j][0] in match:
+                change[j] += match[word[j][0]] * (10 ** i)
+            else:
+                change[j] += temp * (10 ** i)
+                match[word[j][0]] = temp
+                temp -= 1
 
-        print(match)
-    answer += int(temp)
+            word[j] = word[j][1:]
 
-print(answer)
+print(sum(change))
+                
+                
+                
+            
         
     
     

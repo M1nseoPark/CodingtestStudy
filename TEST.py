@@ -1,1 +1,1 @@
-print(sorted(str(102)))
+print('AAA'[0])
