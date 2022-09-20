@@ -1,1 +1,2 @@
-print('AAA'[0])
+print('A' + 'B')
+print('B' + 'A')
