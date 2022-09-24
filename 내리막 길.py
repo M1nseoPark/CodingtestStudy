@@ -1,5 +1,4 @@
-# 전형적인 DP 문제
-# 동적계획법 공부하고 다시 풀어보기
+# DFS로만 풀면 시간 초과
 
 import sys
 sys.setrecursionlimit(10000)
