@@ -18,7 +18,7 @@ def dfs(x, y):
         nx = x + dx[i]
         ny = y + dy[i]
 
-        if nx >= 0 and nx < n and ny >= 0 and ny < n and visited[nx][ny] == 0 and picture[x][y] == picture[nx][ny]:
+        if nx >= 0 and nx < n and ny >= 0 and ny < n and visited[nx][ny] == 0 and picture[x][y] == picture[nx][ny]:  ##
             dfs(nx, ny)
             
 
