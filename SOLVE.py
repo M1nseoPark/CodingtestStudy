@@ -2,40 +2,40 @@ import sys
 sys.setrecursionlimit(10000)
 
 n = int(input())
-complex = []
-for _ in range(n):
-    complex.append(list(map(int, input())))
+a, b = map(int, input().split())
+m = int(input())
+family = [[0] * (n + 1) for _ in range(n+1)]
 
-dx = [0, 0, -1, 1]
-dy = [-1, 1, 0, 0]
+for _ in range(m):
+    x, y = map(int, input().split())
+    family[x][y] = 1
+    family[y][x] = 1
 
-def dfs(y, x):
-    global temp
-    complex[y][x] = 0
-    temp += 1
+visited = [False for _ in range(n+1)]
 
-    for i in range(4):
-        nx = x + dx[i]
-        ny = y + dy[i]
+def dfs(v, t):
+    t += 1
+    visited[v] = True
 
-        if 0 <= nx < n and 0 <= ny < n and complex[ny][nx] == 1:
-            complex[ny][nx] = 0
-            dfs(ny, nx)
+    if v == b:
+        answer.append(t)
+        
 
+    for i in range(1, n+1):
+        if (not visited[i]) and family[v][i] == 1:
+            dfs(i, t)
 
 answer = []
-temp = 0
-for i in range(n):
-    for j in range(n):
-        if complex[i][j] == 1:
-            dfs(i, j)
-            answer.append(temp)
-            temp = 0
+dfs(a, 0)
 
-print(len(answer))
-answer.sort()
-for i in answer:
-    print(i)
+if len(answer) == 0:
+    print(-1)
+else:
+    print(answer[0] - 1)
+    
+
+    
+
             
 
 
