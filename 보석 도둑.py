@@ -8,7 +8,7 @@ jewel = []
 bag = []
 
 for _ in range(n):
-    heapq.heappush(jewel, list(map(int, sys.stdin.readline().split())))
+    heapq.heappush(jewel, list(map(int, sys.stdin.readline().split())))   # 가벼운 순서대로 힙에 저장
 
 for _ in range(k):
     bag.append(int(sys.stdin.readline()))
