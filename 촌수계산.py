@@ -20,7 +20,6 @@ def dfs(v, t):
     if v == b:
         answer.append(t)
         
-
     for i in range(1, n+1):
         if (not visited[i]) and family[v][i] == 1:
             dfs(i, t)
