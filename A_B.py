@@ -15,7 +15,7 @@ while True:
     elif B % 10 == 1:
         B = B // 10
         answer += 1
-    else:
+    else:   # 이 조건 안 넣으면 시간 초과
         answer = -1
         break
 
