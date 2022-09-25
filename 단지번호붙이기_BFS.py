@@ -38,5 +38,3 @@ answer.sort()
 for i in answer:
     print(i)
             
-            
-            
