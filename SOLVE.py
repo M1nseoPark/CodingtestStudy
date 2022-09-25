@@ -1,27 +1,26 @@
-import sys
-sys.setrecursionlimit(10000)
-
 n = int(input())
-tree = [[] for _ in range(n+1)]
-for _ in range(n-1):
-    a, b = map(int, input().split())
-    tree[a].append(b)
+seat = input()
 
-parent = [0] * (n + 1)
-visited = [False for _ in range(n+1)]
+s = 1
+i = 0
 
+while i < n:
+    if seat[i] == 'S':
+        s += 1
 
-def dfs(v):
-    visited[v] = True
+    if seat[i] == 'L':
+        s += 1
+        i += 1
+
+    i+= 1
+
+print(min(s, n))
+        
     
-    for i in range(1, n+1):
-        parent[tree[i][0]] = v
-        visited[tree[i][0]] = True
-        dfs(i)
-
-dfs(1)
-for i in range(2, n+1):
-    print(parent[i])
+    
+    
+    
+        
     
     
 
