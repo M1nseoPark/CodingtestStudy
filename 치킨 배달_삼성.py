@@ -42,9 +42,4 @@ while num <= m:
 print(min(answer))    
 
 
-    
-
-
-    
-    
-        
+ 
