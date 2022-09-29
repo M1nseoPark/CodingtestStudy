@@ -1,36 +1,44 @@
-n, m = map(int, input().split())
-abj = [[0] * (n + 1) for _ in range(n+1)]
+# 시간, 메모리 제한 너무 빡빡함..
+
+from collections import deque
+import sys
+
+n, m = map(int, sys.stdin.readline().split())
+abj = [[] for _ in range(n+1)]
 for _ in range(m):
-    a, b = map(int, input().split())
-    abj[a][b] = 1
-    abj[b][a] = 1
+    a, b = map(int, sys.stdin.readline().split())
+    abj[b].append(a)
 
 
-visited = [False for _ in range(n+1)]
 def bfs(v):
-    q = []
-    search = []
-    q.append(v)
-    search.append(v)
+    visited = [False for _ in range(n+1)]
     visited[v] = True
+    result = 1
+    q = deque([v])
 
     while q:
-        here = q.pop()
-        for i in range(1, n+1):
-            if abj[here][i] == 1 and not visited[i]:
+        here = q.popleft()
+        for i in abj[here]:
+            if not visited[i]:
                 q.append(i)
                 visited[i] = True
-                search.append(i)
+                result += 1
 
-    return search
-
+    return result
+                
 
 answer = []
+hacking = 0
 for i in range(1, n+1):
-    if not visited[i]:
-        answer.append(bfs(i))
+    temp = bfs(i)
+    if temp > hacking:
+        answer = [i]
+        hacking = temp
+    elif temp == hacking:
+        answer.append(i)
 
-print(answer)
+for i in answer:
+    print(i, end=' ')
 
     
         
