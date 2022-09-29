@@ -1,20 +1,22 @@
 n, m = map(int, input().split())
 tree = list(map(int, input().split()))
 
-tree.sort()
+tree.sort(reverse=True)
 
-def binarySearch(target):
-    answer = 0
-    left = 0
-    right = n - 1
+cut = 1
+answer = tree[n-1] - 1
+for i in range(1, n):
+    if tree[i] <= answer:
+        if cut >= m:
+            print(answer)
+        else:
+            answer -= 1
+            tree += (i + 1)
+
     
-    if answer >= m:
-        print(target)
-        break
 
-    mid = (left + right) // 2
-
-    if tree[mid] > target:
+    
+    
         
     
 
