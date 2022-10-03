@@ -1,4 +1,5 @@
-# 걍 이해가 안됨ㅠㅠㅠ
+# LCS 문제랑 비슷한듯
+# 냅색 알고리즘 -> 0-1 배낭 문제
 
 n, k = map(int, input().split())
 thing = [[0, 0]]
@@ -17,8 +18,5 @@ for i in range(1, n+1):
         else:
             # max(물건을 넣어줬을 때 가치, 안넣었을 때 가치)
             answer[i][j] = max(v + answer[i-1][j-w], answer[i-1][j])
-            print(v + answer[i-1][j-w], answer[i-1][j])
-        print('------')
 
-print(answer)
 print(answer[n][k])
