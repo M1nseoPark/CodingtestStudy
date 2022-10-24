@@ -11,7 +11,6 @@ def bfs(v):
         if here == k:
             break
 
-        # for문 이렇게 쓰는 거 빼고 다 맞았는데 아깝.. 
         for nv in (here - 1, here + 1, here * 2):
             if 0 <= nv <= 10 ** 5 and visited[nv] == 0:
                 q.append(nv)
