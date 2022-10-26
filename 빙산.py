@@ -1,3 +1,5 @@
+# 합칠 수 있는 구현은 최대한 합치기!
+
 from collections import deque
 import sys
 
@@ -22,17 +24,16 @@ def bfs(y, x):
             nx = x + dx[i]
             ny = y + dy[i]
             if 0 <= nx < m and 0 <= ny < n:
-                if visited[ny][nx] == 0:
-                    if sea[ny][nx] != 0:
-                        visited[ny][nx] = 1
-                        q.append([ny, nx])
-                    else:
-                        visited[ny][nx] = 1
-                        pick[y][x] += 1
+                # 처음에 sea[ny][nx] = 0일 때도 visited 조건 넣어서 틀림
+                if sea[ny][nx] != 0 and visited[ny][nx] == 0:  
+                    visited[ny][nx] = 1
+                    q.append([ny, nx])
+                elif sea[ny][nx] == 0:
+                    pick[y][x] += 1
     
 
 while True:
-    pick = [[0] * m for _ in range(n)]
+    pick = [[0] * m for _ in range(n)]  # [y, x, 바다 개수]로 저장하면 시간 단축 가능할듯
     visited = [[0] * m for _ in range(n)]
     result = 0
 
