@@ -3,16 +3,22 @@
 # 23423616x268921x29123을 10으로 나눈 나머지를 구할 때, 6,1,3만 곱하는 것과 같은 원리
 # a^n x a^n = a^2n
 
-import sys
-sys.setrecursionlimit(100000)
+a, b, c = map(int, input().split())
 
-a, b, c = map(int, sys.stdin.readline().split())
+def multiply(d):
+    if d == 1:
+        return a % c
 
-def multiply():
-    if b % 2 == 0:
-        
+    else:
+        if d % 2 == 0:
+            temp = multiply(d // 2)  # temp 변수 사용해야 시간초과가 안남
+            return temp * temp % c
 
-print(a ** b % c)
+        else:
+            temp = multiply((d - 1) // 2)
+            return temp * temp * a % c
+
+print(multiply(b))
 
     
     
