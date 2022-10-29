@@ -28,6 +28,16 @@ def bfs():
                         q.append([ny, nx, z+1])
                         visited[ny][nx][z+1] = visited[y][x][z] + 1
 
+<<<<<<< Updated upstream
+=======
+                if 0 <= nx < w and 0 <= ny < h and board[ny][nx] == 0:
+                    q.append([ny, nx])
+                    board[ny][nx] = 1
+                    move[ny][nx] = move[y][x] + 1
+                    follow += 1
+
+
+>>>>>>> Stashed changes
         for i in range(8, 12):
             nx = x + dx[i]
             ny = y + dy[i]
@@ -37,6 +47,7 @@ def bfs():
                     visited[ny][nx][z] = visited[y][x][z] + 1
 
     return -1
+<<<<<<< Updated upstream
                 
                                     
 q = deque()
@@ -44,3 +55,9 @@ q.append([0, 0, 0])
 visited = [[[0] * 31 for _ in range(w)] for _ in range(h)]
 print(bfs())
     
+=======
+
+
+move = [[0] * w for _ in range(h)]
+print(bfs(0, 0))
+>>>>>>> Stashed changes
