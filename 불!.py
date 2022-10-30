@@ -39,7 +39,8 @@ def sbfs(y, x):
         for i in range(4):
             nx = x + dx[i]
             ny = y + dy[i]
-
+            
+            # 가지치기 제대로 안해줘서 시간초과 남
             if 0 <= nx < c and 0 <= ny < r:
                 if maze[ny][nx] != '#' and svisited[ny][nx] == 0:
                     if fvisited[ny][nx] == 0 or fvisited[ny][nx] > (svisited[y][x] + 1):
