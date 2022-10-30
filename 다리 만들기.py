@@ -32,6 +32,7 @@ def island(y, x):
 
                 
 # 바다를 건너며 가장 짧은 다리 길이를 구함
+# y, x, z로 매개변수를 설정하면 distance 초기화가 애매해짐
 def bridge(z):
     global answer
     distance = [[-1] * n for _ in range(n)]
