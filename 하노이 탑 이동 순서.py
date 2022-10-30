@@ -16,3 +16,5 @@ hanoi(1, 3, n)
 print(len(move))
 for i in range(len(move)):
     print(move[i][0], move[i][1])
+
+    
