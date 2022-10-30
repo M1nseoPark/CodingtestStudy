@@ -40,7 +40,7 @@ def bfs():
                     q.append([ny, nx, 1])
                     visited[ny][nx][1] = visited[y][x][0] + 1
     
-answer = []
+answer = []  # answer을 n*m으로 설정해줬다가 틀림 -> 최댓값 구할 땐 리스트로 저장해주는게 안전한듯
 bfs()
 
 if len(answer) == 0:
