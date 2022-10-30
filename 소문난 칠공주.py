@@ -1,57 +1,46 @@
-student = []
+seat = []
 for _ in range(5):
-    student.append(list(input()))
+    seat.append(list(input()))
 
 dx = [-1, 1, 0, 0]
 dy = [0, 0, -1, 1]
 
-answer = 0
-visited = [[0] * 5 for _ in range(5)]
-
-
-def pick(y, x, da, do):
+def pick(sy, sx, s):
     global answer
+    visited = [[0] * 5 for _ in range(5)]
     
-    if (do + da) == 7:
-        if da >= 4:
-            answer += 1
+    while q:
+        y, x = q.pop(0)
+        print(s)
 
-    elif do > 3:
-        return
-    
-    else:
+        if len(s) == 7:
+            idx = 0
+            for i in s:
+                if i == 'S':
+                    idx += 1
+            if idx >= 4:
+                answer += 1
+                return
+            
         for i in range(4):
-            nx = x + dx[i]
             ny = y + dy[i]
-
-            if 0 <= nx < 5 and 0 <= ny < 5 and visited[ny][nx] == 0:
+            nx = x + dx[i]
+            if sx <= nx < 5 and sy <= ny < 5 and visited[ny][nx] == 0:
+                q.append([ny, nx])
+                s.append(seat[ny][nx])
                 visited[ny][nx] = 1
-                if student[ny][nx] == 'S':
-                    da += 1
-                else:
-                    do += 1
                 
-                pick(ny, nx, da, do)
-                
-                if student[ny][nx] == 'S':
-                    da -= 1
-                else:
-                    do -= 1
-                visited[ny][nx] = 0
 
-
+q = []
+s = []
+answer = 0
 for i in range(5):
     for j in range(5):
-        if student[i][j] == 'S':
-            visited[i][j] = 1
-            pick(i, j, 1, 0)
-            visited[i][j] = 0
-
-        else:
-            visited[i][j] = 1
-            pick(i, j, 0, 1)
-            visited[i][j] = 0
-            
+        q.append([i, j])
+        s.append(seat[i][j])
+        pick(i, j, s)
+        q.clear()
+        s.clear()
 
 print(answer)
         

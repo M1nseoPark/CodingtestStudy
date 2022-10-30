@@ -19,13 +19,3 @@ for i in range(2, n):
             arr[i][j] += max(arr[i-1][j-1], arr[i-1][j])
 
 print(max(arr[-1]))
-        
-    
-                    
-    
-
-    
-
-
-
-    
