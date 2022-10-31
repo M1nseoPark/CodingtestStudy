@@ -1,12 +1,11 @@
-import sys
+n = int(input())
+A = list(map(int, input().split()))
 
-n = int(sys.stdin.readline())
-A = list(map(int, sys.stdin.readline().split()))
+dp = [1] * n
 
-dp = [1 for _ in range(n)]
-
-for i in range(1, n):
-    if A[s] < A[i]:
-        ret = max(ret, lis(i) + 1)
-     
-print(lis(0))
+for i in range(n):
+    for j in range(i):
+        if A[j] < A[i]:
+            dp[i] = max(dp[i], dp[j] + 1)
+                    
+print(max(dp))
