@@ -1,35 +1,77 @@
-N, K = map(int, input().split())
-use = list(map(int, input().split()))
+from collections import deque
 
-plugs = []
-result = 0
-for i in range(K):
-    # 이미 있다면
-    if use[i] in plugs:
-        continue
+r, c = map(int, input().split())
+maze = []
+for _ in range(r):
+    maze.append(list(input()))
 
-    # 빈공간이 있다면
-    if len(plugs) != N:
-        plugs.append(use[i])
-        continue
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
+fvisited = [[0] * c for _ in range(r)]
 
-    # 가장 멀리 있는 플러그의 인덱스
-    far_one = 0
-    temp = 0
-    # 현재 꽂혀있는 플러그들 확인
-    for plug in plugs:
-        # 앞으로 사용할 플러그에 없으면
-        if plug not in use[i:]:
-            temp = plug
+fq = deque()
+jq = deque()
+for i in range(r):
+    for j in range(c):
+        if maze[i][j] == 'J':
+            jq.append([i, j])
+
+        if maze[i][j] == 'F':
+            fq.append([i, j])
+            fvisited[i][j] = 1
+            
+
+def fbfs():
+    while fq:
+        y, x = fq.popleft()
+        
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+            if 0 <= nx < c and 0 <= ny < r:
+                if maze[ny][nx] != '#' and fvisited[ny][nx] == 0:
+                    fvisited[ny][nx] = fvisited[y][x] + 1
+                    fq.append([ny, nx])
+
+jvisited = [[0] * c for _ in range(r)]
+jvisited[jq[0][0]][jq[0][1]] = 1
+
+
+def jbfs():
+    answer = 0
+    
+    while jq:
+        y, x = jq.popleft()
+
+        if y == 0 or x == 0 or y == (r - 1) or x == (c - 1):
+            answer = jvisited[y][x]
             break
-        # 현재까지 가장 멀리 있는 플러그보다 멀리 있으면
-        elif use[i:].index(plug) > far_one:
-            far_one = use[i:].index(plug)
-            temp = plug
-    plugs[plugs.index(temp)] = use[i]
-    result += 1
 
-print(result)
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+            if 0 <= nx < c and 0 <= ny < r:
+                if maze[ny][nx] != '#' and jvisited[ny][nx] == 0:
+                    if fvisited[ny][nx] > jvisited[ny][nx]:
+                        jvisited[ny][nx] = jvisited[y][x] + 1
+                        jq.append([ny, nx])
+
+    if answer == -1:
+        print('IMPOSSIBLE')
+    else:
+        print(answer)
+
+fbfs()
+jbfs()
+
+        
+                
+
+            
+    
+    
+
+
 
 
     
