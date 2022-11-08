@@ -53,7 +53,7 @@ def bridge(z):
             if nx < 0 or nx >= n or ny < 0 or ny >= n:
                 continue
 
-            ### 다른 땅을 만나면 기존 답과 비교하여 짧은 거리 선택
+            ### 다른 땅을 만나면 기존 답과 비교하여 짧은 거리 선택 -> 다른 방법으로 다른 땅의 같은 위치에 도달할 수 있으므로 distance 검사 안함
             if board[ny][nx] != 0 and board[ny][nx] != z:
                 answer = min(answer, distance[y][x])
                 return
