@@ -1,70 +1,75 @@
 from collections import deque
 
-r, c = map(int, input().split())
-maze = []
-for _ in range(r):
-    maze.append(list(input()))
+n = int(input())
+maps = []
+for _ in range(n):
+    maps.append(list(map(int, input().split())))
 
 dx = [-1, 1, 0, 0]
 dy = [0, 0, -1, 1]
-fvisited = [[0] * c for _ in range(r)]
 
-fq = deque()
-jq = deque()
-for i in range(r):
-    for j in range(c):
-        if maze[i][j] == 'J':
-            jq.append([i, j])
 
-        if maze[i][j] == 'F':
-            fq.append([i, j])
-            fvisited[i][j] = 1
-            
+def island(y, x):
+    q = deque()
+    q.append([y, x])
+    maps[y][x] = idx
 
-def fbfs():
-    while fq:
-        y, x = fq.popleft()
-        
+    while q:
+        y, x = q.popleft()
+
         for i in range(4):
             nx = x + dx[i]
             ny = y + dy[i]
-            if 0 <= nx < c and 0 <= ny < r:
-                if maze[ny][nx] != '#' and fvisited[ny][nx] == 0:
-                    fvisited[ny][nx] = fvisited[y][x] + 1
-                    fq.append([ny, nx])
-
-jvisited = [[0] * c for _ in range(r)]
-jvisited[jq[0][0]][jq[0][1]] = 1
-
-
-def jbfs():
-    answer = 0
+            if 0 <= nx < n and 0 <= ny < n and maps[ny][nx] == 1:
+                maps[ny][nx] = idx
+                q.append([ny, nx])
     
-    while jq:
-        y, x = jq.popleft()
+    
+idx = 2
+for i in range(n):
+    for j in range(n):
+        if maps[i][j] == 1:
+            island(i, j)
+            idx += 1
 
-        if y == 0 or x == 0 or y == (r - 1) or x == (c - 1):
-            answer = jvisited[y][x]
-            break
+
+def bridge(num):
+    global answer
+    q = deque()
+    visited = [[-1] * n for _ in range(n)]
+    
+    for i in range(n):
+        for j in range(n):
+            if maps[i][j] == num:
+                q.append([i, j])
+                visited[i][j] = 0
+
+    while q:
+        y, x = q.popleft()
 
         for i in range(4):
             nx = x + dx[i]
             ny = y + dy[i]
-            if 0 <= nx < c and 0 <= ny < r:
-                if maze[ny][nx] != '#' and jvisited[ny][nx] == 0:
-                    if fvisited[ny][nx] > jvisited[ny][nx]:
-                        jvisited[ny][nx] = jvisited[y][x] + 1
-                        jq.append([ny, nx])
+            if 0 <= nx < n and 0 <= ny < n and visited[ny][nx] == -1:
+                if maps[ny][nx] == num:
+                    q.append([ny, nx])
+                    visited[ny][nx] = 0
 
-    if answer == -1:
-        print('IMPOSSIBLE')
-    else:
-        print(answer)
+                elif maps[ny][nx] == 0:
+                    visited[ny][nx] = visited[y][x] + 1
+                    q.append([ny, nx])
 
-fbfs()
-jbfs()
+                else:
+                    answer = min(answer, visited[y][x])
+                    return
+                    
+                
+answer = n * n
+for i in range(2, idx):
+    bridge(i)
 
-        
+print(answer)
+            
                 
 
             
