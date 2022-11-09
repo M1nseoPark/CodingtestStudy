@@ -1,74 +1,19 @@
-from collections import deque
+import sys
+K, N = map(int, input().split())
+lan = [int(sys.stdin.readline()) for _ in range(K)]
+start, end = 1, max(lan) #이분탐색 처음과 끝위치
 
-n = int(input())
-maps = []
-for _ in range(n):
-    maps.append(list(map(int, input().split())))
-
-dx = [-1, 1, 0, 0]
-dy = [0, 0, -1, 1]
-
-
-def island(y, x):
-    q = deque()
-    q.append([y, x])
-    maps[y][x] = idx
-
-    while q:
-        y, x = q.popleft()
-
-        for i in range(4):
-            nx = x + dx[i]
-            ny = y + dy[i]
-            if 0 <= nx < n and 0 <= ny < n and maps[ny][nx] == 1:
-                maps[ny][nx] = idx
-                q.append([ny, nx])
-    
-    
-idx = 2
-for i in range(n):
-    for j in range(n):
-        if maps[i][j] == 1:
-            island(i, j)
-            idx += 1
-
-
-def bridge(num):
-    global answer
-    q = deque()
-    visited = [[-1] * n for _ in range(n)]
-    
-    for i in range(n):
-        for j in range(n):
-            if maps[i][j] == num:
-                q.append([i, j])
-                visited[i][j] = 0
-
-    while q:
-        y, x = q.popleft()
-
-        for i in range(4):
-            nx = x + dx[i]
-            ny = y + dy[i]
-            if 0 <= nx < n and 0 <= ny < n and visited[ny][nx] == -1:
-                if maps[ny][nx] == num:
-                    q.append([ny, nx])
-                    visited[ny][nx] = 0
-
-                elif maps[ny][nx] == 0:
-                    visited[ny][nx] = visited[y][x] + 1
-                    q.append([ny, nx])
-
-                else:
-                    answer = min(answer, visited[y][x])
-                    return
-                    
-                
-answer = n * n
-for i in range(2, idx):
-    bridge(i)
-
-print(answer)
+while start <= end: #적절한 랜선의 길이를 찾는 알고리즘
+    mid = (start + end) // 2 #중간 위치
+    lines = 0 #랜선 수
+    for i in lan:
+        lines += i // mid #분할 된 랜선 수
+        
+    if lines >= N: #랜선의 개수가 분기점
+        start = mid + 1
+    else:
+        end = mid - 1
+print(end)
             
                 
 
