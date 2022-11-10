@@ -1,20 +1,27 @@
 import sys
-K, N = map(int, input().split())
-lan = [int(sys.stdin.readline()) for _ in range(K)]
-start, end = 1, max(lan) #이분탐색 처음과 끝위치
 
-while start <= end: #적절한 랜선의 길이를 찾는 알고리즘
-    mid = (start + end) // 2 #중간 위치
-    lines = 0 #랜선 수
-    for i in lan:
-        lines += i // mid #분할 된 랜선 수
-        
-    if lines >= N: #랜선의 개수가 분기점
-        start = mid + 1
+n, m = map(int, sys.stdin.readline().split())
+tree = list(map(int, sys.stdin.readline().split()))
+
+left = 0
+right = max(tree)
+
+while left <= right:
+    mid = (left + right) // 2
+
+    temp = 0
+    for i in range(n):
+        if tree[i] - mid >= 0:
+            temp += (tree[i] - mid)
+        if temp > m:   # 절단된 나무를 추가하는 중에 이미 m을 넘으면 중단
+            break
+
+    if temp >= m:
+        left = mid + 1
     else:
-        end = mid - 1
-print(end)
-            
+        right = mid - 1
+
+print(right)
                 
 
             
