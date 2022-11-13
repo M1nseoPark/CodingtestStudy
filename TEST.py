@@ -1,19 +1,21 @@
-import sys
-K, N = map(int, input().split())
-lan = [int(sys.stdin.readline()) for _ in range(K)]
-start, end = 1, max(lan) #이분탐색 처음과 끝위치
+m, n = map(int, input().split())
+universe = [list(map(int, input().split())) for _ in range(m)]
+cnt = 0
 
-while start <= end: #적절한 랜선의 길이를 찾는 알고리즘
-    mid = (start + end) // 2 #중간 위치
-    lines = 0 #랜선 수
-    for i in lan:
-        lines += i // mid #분할 된 랜선 수
-        
-    if lines >= N: #랜선의 개수가 분기점
-        start = mid + 1
-    else:
-        end = mid - 1
-print(end)
+for planet in range(m):
+    for i in range(m):
+        arr_sort = sorted(universe[i])  # 정렬 먼저 해준 후
+        idx = []
+        for j in universe[i]:  # 크기 순으로 인덱스 순서 리스트 만들기
+            idx.append(arr_sort.index(j) + 1)
+        universe[i] = idx
+
+for i in range(m - 1):
+    for j in range(i + 1, m):
+        if universe[i] == universe[j]:  # 우주끼리 리스트 순서가 같으면 cnt++
+            cnt += 1
+
+print(cnt)
             
                 
 
