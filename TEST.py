@@ -1,22 +1,27 @@
-m, n = map(int, input().split())
-universe = [list(map(int, input().split())) for _ in range(m)]
-cnt = 0
+import sys
 
-for planet in range(m):
-    for i in range(m):
-        arr_sort = sorted(universe[i])  # 정렬 먼저 해준 후
-        idx = []
-        for j in universe[i]:  # 크기 순으로 인덱스 순서 리스트 만들기
-            idx.append(arr_sort.index(j) + 1)
-        universe[i] = idx
+n, m = map(int, sys.stdin.readline().split())
+tree = list(map(int, sys.stdin.readline().split()))
 
-for i in range(m - 1):
-    for j in range(i + 1, m):
-        if universe[i] == universe[j]:  # 우주끼리 리스트 순서가 같으면 cnt++
-            cnt += 1
+left = 0
+right = max(tree)
 
-print(cnt)
-            
+while left <= right:
+    mid = (left + right) // 2
+
+    temp = 0
+    for i in range(n):
+        if tree[i] - mid >= 0:
+            temp += (tree[i] - mid)
+        if temp > m:   # 절단된 나무를 추가하는 중에 이미 m을 넘으면 중단
+            break
+
+    if temp >= m:
+        left = mid + 1
+    else:
+        right = mid - 1
+
+print(right)
                 
 
             
