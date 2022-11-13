@@ -1,27 +1,15 @@
-import sys
+n = int(input())
 
-n, m = map(int, sys.stdin.readline().split())
-tree = list(map(int, sys.stdin.readline().split()))
+dp = [0 for _ in range(n+1)]
+dp[1] = 9
 
-left = 0
-right = max(tree)
+for i in range(2, n+1):
+    dp[i] = dp[i-1] * 2 - (i - 1)
 
-while left <= right:
-    mid = (left + right) // 2
+print(dp[n])
+            
 
-    temp = 0
-    for i in range(n):
-        if tree[i] - mid >= 0:
-            temp += (tree[i] - mid)
-        if temp > m:   # 절단된 나무를 추가하는 중에 이미 m을 넘으면 중단
-            break
 
-    if temp >= m:
-        left = mid + 1
-    else:
-        right = mid - 1
-
-print(right)
                 
 
             
