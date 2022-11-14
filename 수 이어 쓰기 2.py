@@ -1,9 +1,18 @@
 n, k = map(int, input().split())
 
-arr = [i for i in range(1, n+1)]
-data = ''.join(map(str, arr))
+idx = 9
+num = 1
+answer = 0
 
-if len(data) < k:
+while k > idx * num:
+    k -= idx * num
+    answer += idx
+    num += 1
+    idx *= 10
+
+answer = (answer + 1) + (k - 1) // num
+
+if answer > n:
     print(-1)
 else:
-    print(data[k-1])
+    print(str(answer)[(k-1)%num])
