@@ -1,12 +1,24 @@
-n = int(input())
+n, k = map(int, input().split())
 
-dp = [0 for _ in range(n+1)]
-dp[1] = 9
+arr = [True for _ in range(n+1)]
+arr[1] = False
 
-for i in range(2, n+1):
-    dp[i] = dp[i-1] * 2 - (i - 1)
+def prime():
+    idx = 0
+    
+    for i in range(2, n+1):
+        if arr[i]:
+            for j in range(i, n+1, i):
+                if arr[j]:
+                    arr[j] = False
+                    idx += 1
 
-print(dp[n])
+                    if idx == k:
+                        print(j)
+                        return
+
+prime()
+            
             
 
 
