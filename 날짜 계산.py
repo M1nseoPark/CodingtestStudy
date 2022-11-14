@@ -1,9 +1,23 @@
-e, s, m = map(int, input().split())
+import sys
 
-d = 1
+e, s, m = map(int, sys.stdin.readline().split())
+ed, sd, md = 1, 1, 1
+
+answer = 1
 while True:
-    if d % 15 == e and d % 28 == s and m % 19 == m:
-        print(d)
+    if ed == e and sd == s and md == m:
         break
-    else:
-        d += 1
+
+    ed += 1
+    sd += 1
+    md += 1
+    answer += 1
+
+    if ed >= 16:
+        ed -= 15
+    if sd >= 29:
+        sd -= 28
+    if md >= 20:
+        md -= 19
+
+print(answer)
