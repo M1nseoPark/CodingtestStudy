@@ -13,11 +13,11 @@ dy = [0, 0, -1, 1]
 
 # 섬을 구분해주는 bfs -> 다른 섬은 다른 숫자로 표시
 def island(y, x):
-    global count
+    global idx
+
     q = deque()
     q.append([y, x])
-    visited[y][x] = 1
-    board[y][x] = count
+    board[y][x] = idx
 
     while q:
         y, x = q.popleft()
@@ -25,9 +25,8 @@ def island(y, x):
         for i in range(4):
             nx = x + dx[i]
             ny = y + dy[i]
-            if 0 <= nx < n and 0 <= ny < n and board[ny][nx] == 1 and visited[ny][nx] == 0:
-                visited[ny][nx] = 1
-                board[ny][nx] = count
+            if 0 <= nx < n and 0 <= ny < n and board[ny][nx] == 1:
+                board[ny][nx] = idx
                 q.append([ny, nx])
 
                 
@@ -37,7 +36,8 @@ def bridge(z):
     global answer
     distance = [[-1] * n for _ in range(n)]
     q = deque()
-
+    
+    # BFS 하기 전 먼저 섬 위치를 큐에 넣어줘야 함
     for i in range(n):
         for j in range(n):
             if board[i][j] == z:
@@ -63,17 +63,17 @@ def bridge(z):
                 distance[ny][nx] = distance[y][x] + 1
                 q.append([ny, nx])
                 
-visited = [[0] * n for _ in range(n)]
-count = 1   # 섬의 종류
+                
+idx = 2   # 섬의 종류
 answer = n*n
 
 for i in range(n):
     for j in range(n):
-        if visited[i][j] == 0 and board[i][j] == 1:
+        if board[i][j] == 1:
             island(i, j)
-            count += 1
+            idx += 1
             
-for i in range(1, count):
+for i in range(2, idx):
     bridge(i)
 
 print(answer)
