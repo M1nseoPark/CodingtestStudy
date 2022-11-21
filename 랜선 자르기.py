@@ -6,7 +6,7 @@ for _ in range(k):
 left = 1   # 랜선의 길이는 1부터 시작 -> ZeroDivisionError
 right = max(line)
 
-while left <= right:
+while left <= right:   # left < right 이면 틀림
     mid = (left + right) // 2
 
     temp = 0
