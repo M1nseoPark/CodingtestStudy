@@ -58,15 +58,17 @@ def bfs():
                 return
 
             # 빨간 구슬과 파란 구슬은 동시에 같은 칸에 있을 수 없음
+            # 코드 내 움직임의 결과는 실제 움직임의 결과와 다름(구슬 각각을 따로 움직인 것)
+            # 동시에 움직였다면 이동거리가 많은 구슬이 적은 구슬 앞에 부딪쳐 멈췄을 것
             if nrx == nbx and nry == nby:
-                if rcount > bcount:   # 이동 거리가 많은 구슬을 한칸 뒤로**
+                if rcount > bcount:   # 이동 거리가 많은 구슬을 한칸 뒤로
                     nrx -= dx[i]
                     nry -= dy[i]
                 else:
                     nbx -= dx[i]
                     nby -= dy[i]
 
-            # BFS 탐색을 마치고, 방문 여부 확인
+            ## BFS 탐색을 마치고, 방문 여부 확인
             if not visited[nry][nrx][nby][nbx]:
                 visited[nry][nrx][nby][nbx] = True
                 q.append([nry, nrx, nby, nbx, depth + 1])
