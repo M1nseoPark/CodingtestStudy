@@ -1,19 +1,23 @@
-t, w = map(int, input().split())
-tree = []
-for _ in range(t):
-    tree.append(int(input()))
+n = int(input())
+arr = list(map(int, input().split()))
 
-dp = [0] * t
-move = 0
+left = 0
+right = n-1
+answer = 300000000
 
-if tree[0] == 1:
-    dp[0] = 1
+while left < right:
+    temp = arr[left] + arr[right]
+    if temp == 0:
+        answer = 0
+        break
 
-for i in range(1, t):
-    if 
-    
-    
+    if answer > abs(temp):
+        answer = temp
+        left += 1
 
-    
-                
-                                
+    else:
+        right -= 1
+
+
+print(answer)
+        
