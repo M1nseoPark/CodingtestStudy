@@ -24,3 +24,35 @@ for i in range(n-1, -1, -1):
 
 print(answer)
 
+
+'''
+내가 푼 이분탐색 풀이 -> python 시간 초과, pypy로 제출해야 함(중복된 temp 값도 계산하니까 그런가?)
+import sys
+
+n = int(sys.stdin.readline())
+arr = []
+for _ in range(n):
+    arr.append(int(sys.stdin.readline()))
+
+arr.sort()
+answer = 0
+
+for i in range(n-1, -1, -1):
+    for j in range(i+1):
+        temp = arr[i] - arr[j]
+        left = j
+        right = i
+        while left <= right:
+            rst = arr[left] + arr[right]
+            if rst == temp:
+                answer = max(arr[i], answer)
+                break
+
+            elif rst > temp:
+                right -= 1
+
+            else:
+                left += 1
+
+print(answer)
+'''
