@@ -1,32 +1,26 @@
 from collections import deque
 
-
 n = int(input())
 maps = []
 for _ in range(n):
     maps.append(list(map(int, input().split())))
 
-dx = [0, -1, 0, 1]
-dy = [-1, 0, 1, 0]
-
-sy, sx = 0, 0   # 아기 상어의 위치 
-size = 2   # 아기 상어의 크기
-
+sy, sx, size = 0, 0, 2
 for i in range(n):
     for j in range(n):
         if maps[i][j] == 9:
             sy, sx = i, j
 
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
+time = 0
 
-# 나는 먹을 수 있는 물고기를 세는 함수, 거리 재는 함수를 따로 작성했는데,
-# 먹을 수 있는 물고기의 위치와 거리를 BFS로 먼저 측정해 저장하는 게 효율적 
-def bfs(sy, sx, ss):
-    visited = [[-1] * n for _ in range(n)]
-
+def eat():
     q = deque()
     q.append([sy, sx])
+    visited = [[-1] * n for _ in range(n)]
     visited[sy][sx] = 0
-    temp = []   # 먹을 수 있는 물고기의 위치와 거리 
+    fish = []   # 먹을 수 있는 물고기의 거리와 위치
 
     while q:
         y, x = q.popleft()
@@ -34,40 +28,37 @@ def bfs(sy, sx, ss):
         for i in range(4):
             nx = x + dx[i]
             ny = y + dy[i]
-
-            if 0 <= nx < n and 0 <= ny < n and visited[ny][nx] == -1 and maps[ny][nx] <= ss:
+            if 0 <= nx < n and 0 <= ny < n and visited[ny][nx] == -1 and maps[ny][nx] <= size:
                 q.append([ny, nx])
                 visited[ny][nx] = visited[y][x] + 1
-
-                if maps[ny][nx] < ss and maps[ny][nx] != 0:
-                    temp.append([ny, nx, visited[ny][nx]])
+                if maps[ny][nx] != 0 and maps[ny][nx] < size:
+                    fish.append([visited[ny][nx], ny, nx])
 
     # 거리가 가장 가까운 -> 가장 위에 있는 -> 가장 왼쪽에 있는 순서 
-    return sorted(temp, key=lambda x: (x[2], x[0], x[1]), reverse=True)
+    fish.sort()
+    return fish
 
 
-cnt = 0   
-answer = 0   
+temp = 0
 while True:
     # 상어 위치에 따라 가까운 물고기도 달라지기 때문에 매번 탐색을 다시 해줘야 함 
-    eat = bfs(sy, sx, size)  
+    fish = eat()
+    maps[sy][sx] = 0
 
-    if len(eat) == 0:
+    if len(fish) == 0:
         break
 
-    ny, nx, dist = eat.pop()
+    t, y, x = fish[0][0], fish[0][1], fish[0][2]
+    sy, sx = y, x
 
-    answer += dist
-    maps[sy][sx], maps[ny][nx] = 0, 0
-
-    sy, sx = ny, nx
-    cnt += 1
-
-    if cnt == size:
+    temp += 1
+    if temp == size:
         size += 1
-        cnt = 0
+        temp = 0
+
+    time += t
 
 
-print(answer)
+print(time)
     
-    
+   
