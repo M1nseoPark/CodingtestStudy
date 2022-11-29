@@ -21,29 +21,6 @@ while left <= right:
 print(answer)
 '''
 
-n, m = map(int, input().split())
-arr = []
-for _ in range(n):
-    temp = list(map(int, input().split()))
-    arr.append([[temp[i], i] for i in range(m)])
-
-def equal(arr1, arr2):
-    arr1.sort()
-    arr2.sort()
-    for i in range(m):
-        if arr1[i][1] != arr2[i][1]:
-            return False
-
-    return True
-
-
-answer = 0
-for i in range(n):
-    for j in range(i+1, n):
-        if equal(arr[i], arr[j]):
-            answer += 1
-
-print(answer)
 
         
         

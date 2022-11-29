@@ -1,32 +1,30 @@
-# 두 개를 고르는 조합 연산은 굳이 조합 라이브러리를 안써도 됨
-# 정렬 연산이라는 걸 몰랐음
-import sys
-
-m, n = map(int, sys.stdin.readline().split())
+m, n = map(int, input().split())
 arr = []
-answer = 0
+for _ in range(m):
+    arr.append(list(map(int, input().split())))
 
-# 2차원 리스트 만들 필요 없이 나중에 순위 리스트로 대체하기
+new = [[] for _ in range(m)]   # 각 우주의 순위 리스트 
+dict = {}
+
 for i in range(m):
-    arr.append(list(map(int, sys.stdin.readline().split()))) 
+    temp = sorted(list(set(arr[i])))  # 각 우주에서 중복을 제거하여 정렬한 리스트 
+    for j in range(len(temp)):
+        dict[temp[j]] = j   # {1: 0, 2: 1, 3: 2} -> 중복 제거 필요 
+
+    for j in arr[i]:
+        new[i].append(dict[j])
 
 
-# 순위 리스트 만들기 [12, 50, 10] -> [2, 3, 1]
-for i in range(m):
-    temp = sorted(arr[i])
-    idx = []
-    for k in arr[i]:
-        idx.append(temp.index(k) + 1)  
+new.sort()
+cnt, ans = 1, 0
+for i in range(1, m):
+    if new[i] == new[i-1]:
+        cnt += 1
+    else:
+        ans += cnt * (cnt - 1) // 2   ## ?
+        cnt = 1
 
-    arr[i] = idx
-
-
-# 2중 for문 -> 우주의 쌍 구하기
-for i in range(m-1):
-    for j in range(i+1, m):
-        if arr[i] == arr[j]:
-            answer += 1
-
-print(answer)
+ans += cnt * (cnt - 1) // 2
+print(ans)
 
     
