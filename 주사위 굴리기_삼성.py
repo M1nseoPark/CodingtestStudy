@@ -5,47 +5,31 @@ maps = []
 for _ in range(n):
     maps.append(list(map(int, input().split())))
 
-dice = [0, 0, 0, 0, 0, 0]
-order = list(map(int, input().split()))
+command = list(map(int, input().split()))
 
-dy = [1, -1, 0, 0]  # 동서북남
+dy = [1, -1, 0, 0]
 dx = [0, 0, -1, 1]
+dice = [0, 0, 0, 0, 0, 0]
 
-def turn(dir):
-    a, b, c, d, e, f = dice[0], dice[1], dice[2], dice[3], dice[4], dice[5]
-    if dir == 0:  #동
-        dice[0], dice[1], dice[2], dice[3], dice[4], dice[5] = d, b, a, f, e, c
+move = [[3, 1, 0, 5, 4, 2], [2, 1, 5, 0, 4, 3], [4, 0, 2, 3, 5, 1],
+        [1, 5, 2, 3, 0, 4]]
 
-    elif dir == 1:  #서
-        dice[0], dice[1], dice[2], dice[3], dice[4], dice[5] = c, b, f, a, e, d
+for c in command:
+    ny = y + dy[c-1]
+    nx = x + dx[c-1]
 
-    elif dir == 2:  #북
-        dice[0], dice[1], dice[2], dice[3], dice[4], dice[5] = e, a, c, d, f, b
+    if 0 > ny or 0 > nx or ny >= m or nx >= n:
+        continue
 
-    else:  # 남
-        dice[0], dice[1], dice[2], dice[3], dice[4], dice[5] = b, f, c, d, a, e
-
-
-def roll(ny, nx, d):
-    nx = nx + dx[d]
-    ny = ny + dy[d]
+    s = move[c-1]
+    dice[0], dice[1], dice[2], dice[3], dice[4], dice[5] = dice[s[0]], dice[s[1]], dice[s[2]], dice[s[3]], dice[s[4]], dice[s[5]]
     
-    if 0 <= nx < n and 0 <= ny < m:
-        turn(d)
-
-        if maps[nx][ny] == 0:   # 0이면 주사위 바닥면에 쓰여 있는 수가 칸에 복사됨
-            maps[nx][ny] = dice[-1]
-        else:   # 0이 아니면 칸에 쓰여 있는 수가 주사위 바닥면으로 복사되며, 칸에 쓰여 있는 수는 0이 됨
-            dice[-1] = maps[nx][ny]
-            maps[nx][ny] = 0
-
-        print(dice[0])
-        return ny, nx
+    if maps[nx][ny] == 0:
+        maps[nx][ny] = dice[5]
     else:
-        ox = nx - dx[d]
-        oy = ny - dy[d]
-        return oy, ox
+        dice[5] = maps[nx][ny]
+        maps[nx][ny] = 0
 
+    print(dice[0])
+    y, x = ny, nx
 
-for i in range(k):
-    y, x = roll(y, x, order[i]-1)
