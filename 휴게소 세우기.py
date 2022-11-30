@@ -1,35 +1,28 @@
 n, m, l = map(int, input().split())
-arr = list(map(int, input().split()))
-
-# 82 201 411 555 622 755
-#  119 210 144 67  133
-
-rest = m
-while rest != 0:
-    arr.sort()
-    temp = []
-
-    for i in range(len(arr)-1):
-        temp.append([arr[i+1]-arr[i], arr[i]])
-
-    temp.sort()
-
-    if len(temp) >= rest:
-        for i in range(rest):
-            arr.append(temp[i][1] + (temp[i][0] // 2))
-            rest -= 1
-    else:
-        for i in range(len(temp)):
-            arr.append(temp[i][1] + (temp[i][0] // 2))
-            rest -= 1
+arr = [0] + list(map(int, input().split())) + [l]
 
 arr.sort()
-print(arr)
+left, right = 1, l-1
 answer = 0
-for i in range(len(arr)-1):
-    answer = max(answer, arr[i+1]-arr[i])
+
+while left <= right:
+    cnt = 0
+    mid = (right + left) // 2
+
+    for i in range(1, len(arr)):
+        if arr[i] - arr[i-1] > mid:   # 현재 거리 중 mid보다 큰 거리를 찾아서 
+            cnt += (arr[i] - arr[i-1] - 1) // mid  # 나눈 만큼 휴게소 설치(현재 설치돼있는 구역 -1)
+
+    if cnt > m:
+        left = mid + 1
+    else:
+        right = mid - 1
+        answer = mid
 
 print(answer)
+
+
+
             
         
         
