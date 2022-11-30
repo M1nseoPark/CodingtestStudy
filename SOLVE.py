@@ -21,25 +21,8 @@ while left <= right:
 print(answer)
 '''
 
-# m!/(n-m)!
-n, m = map(int, input().split())
 
-def count(num, d):
-    rst = 0
-    while True:
-        if num % d == 0:
-            num //= d
-            rst += 1
-        else:
-            break
 
-    return rst
-        
-
-two = count(m, 2) - count(n-m, 2)
-five = count(m, 2) - count(n-m, 5)
-
-print(min(two, five))
 
     
     
