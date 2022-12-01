@@ -1,11 +1,11 @@
-import sys
+e, s, m = map(int, input().split())
 
-e, s, m = map(int, sys.stdin.readline().split())
-ed, sd, md = 1, 1, 1
+ed, sd, md = 0, 0, 0
+answer = 0
 
-answer = 1
 while True:
     if ed == e and sd == s and md == m:
+        print(answer)
         break
 
     ed += 1
@@ -13,11 +13,11 @@ while True:
     md += 1
     answer += 1
 
-    if ed >= 16:
-        ed -= 15
-    if sd >= 29:
-        sd -= 28
-    if md >= 20:
-        md -= 19
+    if ed > 15:
+        ed = 1
 
-print(answer)
+    if sd > 28:
+        sd = 1
+
+    if md > 19:
+        md = 1
