@@ -1,24 +1,26 @@
-import sys
+n = int(input())
+arr = list(map(int, input().split()))
 
-n = int(sys.stdin.readline())
-arr = list(map(int, sys.stdin.readline().split()))
-
-answer = 200000000
 left = 0
 right = n - 1
+answer = 30000000
 
-while answer != 0 and left < right:
-    if abs(answer) > abs(arr[left]+arr[right]):
-        answer = arr[left] + arr[right]
+while left < right:
+    temp = arr[left] + arr[right]
 
-    if arr[left] + arr[right] > 0:
-        right -= 1
-    elif arr[left] + arr[right] < 0:
+    if temp == 0:
+        answer = 0
+        break
+
+    elif temp < 0:
+        if abs(answer) > abs(temp):
+            answer = temp
         left += 1
 
-print(answer)
+    else:
+        if abs(answer) > abs(temp):
+            answer = temp
+        right -= 1
 
-            
-        
-        
+print(answer)
         
