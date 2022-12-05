@@ -13,6 +13,7 @@ for _ in range(t):
         rst += move
         if cnt % 2 == 0:
             move += 1
+        print(cnt, rst, move)
 
     print(cnt)
         
