@@ -13,7 +13,7 @@ for i in range(n-2):
     while left < right:
         temp = arr[left] + arr[right] + arr[i]
 
-        # answer 갱신 부분을 while문 내부로 넣어주기 
+        # answer 갱신 부분을 while문 내부로 넣어주기(왜?)
         if abs(temp) < result:
             answer[0], answer[1], answer[2] = arr[i], arr[left], arr[right]
             result = abs(temp)
@@ -30,10 +30,5 @@ for i in range(n-2):
 
 print(answer[0], answer[1], answer[2])
     
-    
-    
-
-
-        
     
 
