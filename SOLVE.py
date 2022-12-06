@@ -1,27 +1,36 @@
-'''
-n, m = map(int, input().split())
-arr = []
-for _ in range(n):
-    arr.append(int(input()))
+n = int(input())
+arr = list(map(int, input().split()))
 
 arr.sort()
-left, right = 0, n-1
-answer = 3000000000
+result = 3000000000
+answer = [0, 0, 0]
 
-while left <= right:
-    temp = abs(arr[right] - arr[left])
+for i in range(n-2):
+    a = arr[i]
 
-    if temp >= m:
-        answer = min(answer, temp)
-        left += 1
+    left = i + 1
+    right = n - 1
+    while left < right:
+        temp = a + arr[left] + arr[right]
 
-    else:
-        right -= 1
+        if abs(temp) < result:
+            result = abs(temp)
+            answer[0], answer[1], answer[2] = arr[i], arr[left], arr[right]
 
-print(answer)
-'''
+        if temp == 0:
+            break
+
+        elif temp < 0:
+            left += 1
+
+        else:
+            right -= 1
 
 
+print(answer[0], answer[1], answer[2])
+            
+
+    
 
     
 
