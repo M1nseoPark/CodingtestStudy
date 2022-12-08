@@ -1,70 +1,63 @@
-r, c, k = map(int, input().split())
-A = []
-for _ in range(3):
-    A.append(list(map(int, input().split())))
+from collections import deque
+from itertools import combinations
+import copy
 
-rc, cc = 3, 3   # 행의 크기, 열의 크기
-time = 0
-while True:
-    if rc >= r and cc >= c:
-        if A[r-1][c-1] == k:
-            print(time)
-            break
+n, m = map(int, input().split())
+maps = []
+for _ in range(n):
+    maps.append(list(map(int, input().split())))
+
+dx = [0, 0, -1, 1]
+dy = [-1, 1, 0, 0]
+
+sub = []
+
+for i in range(n):
+    for j in range(m):
+        if maps[i][j] == 0:
+            sub.append([i, j])
+
+
+def bfs(temp):
+    safe = 0
+    q = deque()
+
+    for i in range(n):
+        for j in range(m):
+            if temp[i][j] == 2:
+                q.append([i, j])
     
-    time += 1
-    
-    if time > 100:
-        print(-1)
-        break
+    while q:
+        y, x = q.popleft()
 
-    # R 연산 수행 
-    if rc >= cc:
-        tc = 0
-        for i in range(rc):
-            temp = {}
-            for j in range(cc):
-                if A[i][j] != 0:
-                    if A[i][j] in temp:
-                        temp[A[i][j]] += 1
-                    else:
-                        temp[A[i][j]] = 1
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+            if 0 <= nx < m and 0 <= ny < n and temp[ny][nx] != 0:
+                temp[ny][nx] = 2
+                q.append([ny, nx])
 
-            arr = list(zip(temp.keys(), temp.values()))
-            arr.sort(key=lambda x: (x[1], x[0]))
-            A[i] = list(sum(arr, ()))
-            tc = max(tc, len(A[i]))
 
-        for i in range(rc):
-            if len(A[i]) < tc:
-                A[i] += [0] * (tc - len(A[i]))
+    for i in range(n):
+        for j in range(m):
+            if temp[i][j] == 0:
+                safe += 1
 
-        cc = tc
+    return safe
+            
 
-    # C 연산 수행
-    else:
-        tr = 0
-        for i in range(cc):
-            temp = {}
-            for j in range(rc):
-                if A[j][i] != 0:
-                    if A[j][i] in temp:
-                        temp[A[j][i]] += 1
-                    else:
-                        temp[A[j][i]] = 1
+answer = 0
+for s in list(combinations(sub, 3)):
+    temp = copy.deepcopy(maps)
 
-            arr = list(zip(temp.keys(), temp.values()))
-            arr.sort(key=lambda x: (x[1], x[0]))
-            arr = list(sum(arr, ()))
-            rc = max(rc, len(arr))
+    for i in range(3):
+        sy, sx = s[i][0], s[i][1]
+        temp[sy][sx] = 1
 
-            if rc > len(A):
-                for _ in range(rc - len(A)):
-                    A.append([0] * cc)
-            else:
-                for j in range(len(arr), len(A)):
-                    A[j][i] = 0
+    answer = max(answer, bfs(temp))
 
-            for j in range(len(arr)):
-                A[j][i] = arr[j]
+print(answer)
+
+
 
 
