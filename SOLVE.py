@@ -6,13 +6,14 @@ for _ in range(3):
 rc, cc = 3, 3   # 행의 크기, 열의 크기
 time = 0
 while True:
-    if A[r-1][c-1] == k:
-        print(time)
-        break
+    if rc >= r and cc >= c:
+        if A[r-1][c-1] == k:
+            print(time)
+            break
     
     time += 1
     
-    if time == 100:
+    if time > 100:
         print(-1)
         break
 
@@ -53,6 +54,7 @@ while True:
 
             arr = list(zip(temp.keys(), temp.values()))
             arr.sort(key=lambda x: (x[1], x[0]))
+            arr = list(sum(arr, ()))
             rc = max(rc, len(arr))
 
             if rc > len(A):
@@ -65,9 +67,4 @@ while True:
             for j in range(len(arr)):
                 A[j][i] = arr[j]
 
-
-    
-        
-        
-        
 

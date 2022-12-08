@@ -1,60 +1,69 @@
-# 어려운 문제가 아닌 것 같은데.. 왜 틀리는지 모르겠음..
 r, c, k = map(int, input().split())
-A = [[0] * 100 for _ in range(100)]
-for i in range(3):
-    a, b, d = map(int, input().split())
-    A[i][0], A[i][1], A[i][2] = a, b, d
+A = []
+for _ in range(3):
+    A.append(list(map(int, input().split())))
 
-# [2, 1, 3, 1, 1, 2]
-def array(line):
-    temp = {}
-    for i in range(len(line)):
-        if line[i] == 0:
-            break
-
-        if len(temp) == 0 or line[i] not in temp:
-            temp[line[i]] = 1
-        else:
-            temp[line[i]] += 1
-
-    temp = sorted(temp.items(), key=lambda x:(x[1], x[0]))
-    result = []
-    for i in range(len(temp)):
-        result.append(temp[i][0])
-        result.append(temp[i][1])
-
-    return result
-
-
-# array([3, 1, 1, 2, 0, 0, 0])
-rc, lc = 3, 3   # 열의 개수, 행의 개수
-cnt = 0
+rc, cc = 3, 3   # 행의 크기, 열의 크기
+time = 0
 while True:
-    if cnt == 100:
+    if rc >= r and cc >= c:
+        if A[r-1][c-1] == k:
+            print(time)
+            break
+    
+    time += 1
+
+    # 100초가 지나도 -> 100초는 가능함!!
+    if time > 100:
         print(-1)
         break
 
-    if A[r-1][c-1] == k:
-        print(cnt)
-        break
-
-    if rc <= lc:
-        for i in range(lc):
-            rst = array(A[i])
-            A[i][:len(rst)] = rst
-            A[i][len(rst):rc] = [0] * (rc - len(rst))
-            rc = max(rc, len(rst))
-    else:
+    # R 연산 수행 
+    if rc >= cc:
+        tc = 0
         for i in range(rc):
-            rst = array(list(z[i] for z in A))
-            for z in range(len(rst)):
-                A[z][i] = rst[z]
-            for z in range(len(rst), 100):
-                if A[z][i] != 0:
-                    A[z][i] = 0
-                else:
-                    break
+            temp = {}
+            for j in range(cc):
+                if A[i][j] != 0:
+                    if A[i][j] in temp:
+                        temp[A[i][j]] += 1
+                    else:
+                        temp[A[i][j]] = 1
 
-            lc = max(lc, len(rst))
+            arr = list(zip(temp.keys(), temp.values()))
+            arr.sort(key=lambda x: (x[1], x[0]))
+            A[i] = list(sum(arr, ()))
+            tc = max(tc, len(A[i]))
 
-    cnt += 1
+        for i in range(rc):
+            if len(A[i]) < tc:
+                A[i] += [0] * (tc - len(A[i]))
+
+        cc = tc
+
+    # C 연산 수행
+    else:
+        tr = 0
+        for i in range(cc):
+            temp = {}
+            for j in range(rc):
+                if A[j][i] != 0:
+                    if A[j][i] in temp:
+                        temp[A[j][i]] += 1
+                    else:
+                        temp[A[j][i]] = 1
+
+            arr = list(zip(temp.keys(), temp.values()))
+            arr.sort(key=lambda x: (x[1], x[0]))
+            arr = list(sum(arr, ()))
+            rc = max(rc, len(arr))
+
+            if rc > len(A):
+                for _ in range(rc - len(A)):
+                    A.append([0] * cc)
+            else:
+                for j in range(len(arr), len(A)):
+                    A[j][i] = 0
+
+            for j in range(len(arr)):
+                A[j][i] = arr[j]
