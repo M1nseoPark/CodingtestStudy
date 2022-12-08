@@ -1,5 +1,3 @@
-# dp 리스트까지는 생각했는데 어떻게 식을 세워야할지 몰랐음
-
 n, k = map(int, input().split())
 coin = []
 for _ in range(n):
