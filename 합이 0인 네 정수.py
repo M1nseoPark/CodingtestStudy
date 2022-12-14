@@ -1,25 +1,24 @@
-import sys
-
-n = int(sys.stdin.readline())
-A, B, C, D = [], [], [], []
+n = int(input())
+arr = []
 for _ in range(n):
-    a, b, c, d = map(int, sys.stdin.readline().split())
-    A.append(a)
-    B.append(b)
-    C.append(c)
-    D.append(d)
+    arr.append(list(map(int, input().split())))
 
-
-ab = {}
-for a in A:
-    for b in B:
-        ab[a+b] = ab.get(a+b, 0) + 1
-        
+temp = {}
+for i in range(n):
+    for j in range(n):
+        t = arr[i][0] + arr[j][1]
+        if len(temp) == 0 or t not in temp:
+            temp[t] = 1
+        else:
+            temp[t] += 1
+            
 
 answer = 0
-for c in C:
-    for d in D:
-        answer += ab.get(-(c+d), 0)
+for i in range(n):
+    for j in range(n):
+        t = -1 * (arr[i][2] + arr[j][3])
+        if t in temp:
+            answer += temp[t]
 
 print(answer)
     
