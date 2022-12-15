@@ -17,3 +17,29 @@ else:
 
     print(answer)
 
+
+    '''
+    import math
+
+n = int(input())
+answer = ''
+
+while True:
+    if n == 0:
+        answer += '0'
+        break
+    
+    if n == 1:
+        answer += '1'
+        break
+
+    if n == -1:
+        answer += '11'
+        break
+
+    t = math.ceil(n / -2)
+    answer += str(n - (-2 * t))
+    n = t
+
+print(answer[::-1])
+'''
