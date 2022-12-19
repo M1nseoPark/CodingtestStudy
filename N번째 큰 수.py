@@ -15,3 +15,5 @@ for _ in range(n):
                 heapq.heappop(minHeap)
 
 print(minHeap[0])
+
+
