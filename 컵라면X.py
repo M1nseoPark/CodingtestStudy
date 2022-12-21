@@ -11,15 +11,10 @@ time, i = 1, 0
 solve = []
 
 while ramen:
-    if ramen[0][0] < time:
-        heapq.heappop(ramen)
-
-    else:
+    if ramen[0][0] <= time:
         temp = heapq.heappop(ramen)
         if temp[0] >= time:
             heapq.heappush(solve, temp[1])
-        else:
-            heapq.heappush(ramen, temp)
     else:
         if len(solve) != 0:
             answer += -solve[0]
