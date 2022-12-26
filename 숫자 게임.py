@@ -11,3 +11,4 @@ def solution(A, B):
             del B[0]
 
     return answer
+
