@@ -8,9 +8,9 @@ def solution(gems):
     visited = {}
     visited[gems[0]] = 1
     
-    while left <= right:
-        if len(visited) == m or right >= n:
-            if len(visited) == m and result > right - left + 1:
+    while left < n and right < n:
+        if len(visited) == m:
+            if result > right - left + 1:
                 answer = [left+1, right+1]
                 result = right - left + 1
             
