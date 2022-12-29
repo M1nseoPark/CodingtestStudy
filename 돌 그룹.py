@@ -1,38 +1,41 @@
-
+from collections import deque
 
 a, b, c = map(int, input().split())
+visited = [[0] * 10000 for _ in range(10000)]
 
-visited = []
-answer = 0
+def bfs(a, b, c):
+    q = deque()
+    q.append([a, b, c])
+    visited[a][b] = 1
 
-def dfs(arr):
-    global answer
-    if answer == 1:
-        return
-    
-    if arr[0] == arr[1] and arr[1] == arr[2]:
-        answer = 1
-        return
-    
-    arr.sort()
-    if arr in visited:
-        answer = 0
-        return
+    while q:
+        a, b, c = q.popleft()
+        if a == b and b == c:
+            return 1
 
-    visited.append(arr)
+        if a > b and not visited[a-b][2*b]:
+            visited[a-b][2*b] = 1
+            q.append([a-b, 2*b, c])
+        if a < b and not visited[2 * a][b - a]:
+            visited[2 * a][b - a] = 1
+            q.append([2*a, b-a, c])
+        if b > c and not visited[b - c][2 * c]:
+            visited[b-c][2*c] = 1
+            q.append([a, b-c, 2*c])
+        if b < c and not visited[2*b][c-b]:
+            visited[2*b][c-b] = 1
+            q.append([a, 2*b, c-b])
+        if c > a and not visited[2*a][c-a]:
+            visited[2*a][c-a] = 1
+            q.append([2*a, b, c-a])
+        if c < a and not visited[a-c][2*c]:
+            visited[a-c][2*c] = 1
+            q.append([a-c, b, 2*c])
 
-    a, b, c = arr[0], arr[1], arr[2]
-
-    if a != b:
-        dfs([a+a, b-a, c])
-    if a != c:
-        dfs([a+a, b, c-a])
-    if b != c:
-        dfs([a, b+b, c-b])
+    return 0
 
 
-dfs([a, b, c])
-print(answer)
+print(bfs(a, b, c))
 
         
     
