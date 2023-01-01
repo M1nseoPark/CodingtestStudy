@@ -6,11 +6,11 @@ git commit -m "[플랫폼] 문제이름 / 난이도 / 걸린시간"
 2. 플랫폼 작성법
   - [BOJ] 백준 [(click! 난이도 보는법)](#백준-난이도-보는법 )
   - [PGS] 프로그래머스
-  - [LTC] 리트코드
   - [CFS] 코드포스
   - [ALG] 알고스팟
   - [CUP] 코드업
   - [SEA] 삼성SW Expert Academy
+  - [SOF] 현대자동차그룹 Softeer
   - [ETC] 그외
 
 ## PR 규칙
