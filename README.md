@@ -23,6 +23,8 @@ git commit -m "[플랫폼] 문제이름 / 난이도 / 걸린시간"
     2. 문제 보기 설정 > solved.ac 티어 > 보기
     3. 문제 보기 설정 > solved.ac 티어이름 > 보기
 
+#### 코테 대비를 위한 백준 문제 추천   
+https://covenant.tistory.com/224
 
 ---
 ### Ref
