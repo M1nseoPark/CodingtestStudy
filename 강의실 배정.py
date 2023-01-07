@@ -1,17 +1,25 @@
 import heapq
 
 n = int(input())
-room = []
-for _ in range(n):
-    room.append(list(map(int, input().split())))
 
-fHeap = []
+lecture = []
 for i in range(n):
-    heapq.heappush(fHeap, [room[i][1], room[i][0]])
+    lecture.append(list(map(int, input().split())))
 
-answer = 0
-eHeap = [fHeap[0]]
+lecture.sort()
+
+minHeap = []
+heapq.heappush(minHeap, lecture[0][1])
+
 for i in range(1, n):
-    if fHeap[i][0] > f
+    if lecture[i][0] < minHeap[0]:
+        heapq.heappush(minHeap, lecture[i][1])
+    else:
+        heapq.heappop(minHeap)
+        heapq.heappush(minHeap, lecture[i][1])
+
+print(len(minHeap))
+    
+    
 
     
