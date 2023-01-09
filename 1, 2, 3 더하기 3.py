@@ -1,4 +1,3 @@
-# 메모리 초과..
 import sys
 
 t = int(sys.stdin.readline())
