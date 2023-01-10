@@ -118,3 +118,4 @@ for s in list(combinations(sub, 3)):
     answer = max(answer, safe)
 
 print(answer)
+
