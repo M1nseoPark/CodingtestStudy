@@ -6,10 +6,12 @@ for _ in range(n):
     A.append(list(map(int, sys.stdin.readline().split())))
 
 nutri = [[5 for _ in range(n)] for _ in range(n)]  # 처음 양분은 모든 칸에 5만큼 있음
-tree = []
+tree = {}
+idx = 1
 for _ in range(m):
     x, y, z = map(int, sys.stdin.readline().split())
-    tree.append([x-1, y-1, z])
+    tree[idx] = [x-1, y-1, z]
+    idx += 1
 
 dy = [-1, 0, 1, -1, 1, -1, 0, 1]
 dx = [-1, -1, -1, 0, 0, 1, 1, 1]
