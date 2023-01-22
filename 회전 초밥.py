@@ -1,32 +1,34 @@
-import sys
-
-n, d, k, c = map(int, sys.stdin.readline().split())
+# 회전 초밥 -> 원형 (이걸 고려 안해줌)
+n, d, k, c = map(int, input().split())
 sushi = []
 for _ in range(n):
-    sushi.append(int(sys.stdin.readline()))
-
+    sushi.append(int(input()))
 
 left, right = 0, 0
-answer = 0
+kind = {}
+kind[sushi[0]] = 1
+temp, answer = 1, 0
 
-# 회전 초밥 -> 원형 (이걸 고려 안해줌)
-while left != n:
-    right = left + k
-    eat = set()  # 가능한 한 다양한 종류의 초밥 -> set 이용
-    flag = True
+while left < n:
+    if temp == k:
+        if c in kind:
+            answer = max(answer, len(kind))
+        else:
+            answer = max(answer, len(kind) + 1)
 
-    for i in range(left, right):
-        i %= n   # 원형 리스트 
-        eat.add(sushi[i])
-        if sushi[i] == c:
-            flag = False
+        if kind[sushi[left]] == 1:
+            del kind[sushi[left]]
+        else:
+            kind[sushi[left]] -= 1
+        left += 1
+        temp -= 1
 
-    cnt = len(eat)
-    if flag:
-        cnt += 1
-
-    answer = max(answer, cnt)
-    left += 1
-
+    else:
+        right = (right + 1) % n
+        if sushi[right] in kind:
+            kind[sushi[right]] += 1
+        else:
+            kind[sushi[right]] = 1
+        temp += 1
 
 print(answer)
