@@ -1,22 +1,29 @@
-import sys
+from collections import deque
 
-s = sys.stdin.readline().rstrip()
-t = sys.stdin.readline().rstrip()
+s = input()
+t = input()
 
-switch = False
-while t:
-    if t[-1] == 'A':
-        t.pop()
-    elif t[-1] == 'B':
-        t.pop()
-        t.reverse()
+q = deque()
+q.append(t)
+visited = {}
+visited[t] = 1
 
-    if s == t:
-        switch = True
+answer = 0
+while q:
+    here = q.popleft()
+
+    if here == s:
+        answer = 1
         break
 
-if switch:
-    print(1)
-else:
-    print(0)
+    if len(here) >= 2 and (here[-1] == 'A') and (here[:-1] not in visited):
+        q.append(here[:-1])
+        visited[here[:-1]] = 1
 
+    if len(here) >= 2 and (here[0] == 'B'):
+        here = here[1:]
+        if here[::-1] not in visited:
+            q.append(here[::-1])
+            visited[here[::-1]] = 1
+        
+print(answer)
