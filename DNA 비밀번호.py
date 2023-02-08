@@ -25,3 +25,5 @@ while left < s and right < s:
             kind[dna[right]] += 1
 
 print(answer)
+
+
