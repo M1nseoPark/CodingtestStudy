@@ -1,45 +1,67 @@
-import copy
+from collections import deque
 
-n, m = map(int, input().split())
-cheese = []
-for _ in range(n):
-    cheese.append(list(map(int, input().split())))
+r, c = map(int, input().split())
+board = []
+for _ in range(r):
+    board.append(list(map(int, input().split())))
 
-dx = [0, 0, -1, 1]
-dy = [-1, 1, 0, 0]
-visited = [[0] * m for _ in range(n)]
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
 
-def bfs(y, x, t):
-    q = []
+def air(y, x):
+    q = deque()
     q.append([y, x])
-    visited[y][x] = 1
 
     while q:
-        y, x = q.pop(0)
+        y, x = q.popleft()
 
         for i in range(4):
             nx = x + dx[i]
             ny = y + dy[i]
+            if 0 <= nx < c and 0 <= ny < r and board[ny][nx] == 0:
+                board[ny][nx] = 2
+                q.append([ny, nx])
+                mq.append([ny, nx])
 
-            if 0 <= nx < m and 0 <= ny < n:
-                if cheese[ny][nx] == 0 and t == 1:
-                    melt[ny][nx] = 2
+def melt():
+    while mq:
+        y, x = mq.popleft()
 
-                if cheese[ny][nx] == 0 and t == 2:
-                    melt[ny][nx] = 0
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+            if 0 <= nx < c and 0 <= ny < r and board[ny][nx] == 1:
+                board[ny][nx] = 2
 
 
-melt = copy.deepcopy(cheese)
-for i in range(n):
-    for j in range(m):
-        if cheese[i][j] == 0:
-            bfs(i, j, 1)
+answer, day = 0, 0
+while True:
+    mq = deque()
+    y, x = -1, -1
+    cnt = 0
+    
+    for i in range(r):
+        for j in range(c):
+            if board[i][j] == 0 and (y == -1 and x == -1):
+                y, x = i, j
+            elif board[i][j] == 1:
+                cnt += 1
 
-for i in range(n):
-    for j in range(m):
-        if cheese[i][j] == 0:
-            bfs(i, j, 2)
+    if cnt == 0:
+        break
+    else:
+        answer = cnt
+        day += 1
+        
+    air(y, x)
+    melt()
 
-for i in range(n):
-    print(melt[i])
+    for i in range(r):
+        for j in range(c):
+            if board[i][j] == 2:
+                board[i][j] = 0
+                
+        
+print(day)
+print(answer)
                 
