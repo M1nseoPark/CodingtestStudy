@@ -25,32 +25,7 @@ for i in range(n):
         else:
             b += (goal[i+1][1] - goal[i][1])
 
-aa, ab = '', ''
-if (a // 60) < 10:
-    aa += '0'
-    aa += str(a//60)
-else:
-    aa += str(a//60)
-aa += ':'
-if (a % 60) < 10:
-    aa += '0'
-    aa += str(a%60)
-else:
-    aa += str(a%60)
-
-if (b // 60) < 10:
-    ab += '0'
-    ab += str(b//60)
-else:
-    ab += str(b//60)
-ab += ':'
-if (b % 60) < 10:
-    ab += '0'
-    ab += str(b%60)
-else:
-    ab += str(b%60)
-
-print(aa)
-print(ab)
+print(str(a//60).zfill(2) + ':' + str(a%60).zfill(2))
+print(str(b//60).zfill(2) + ':' + str(b%60).zfill(2))
     
     
