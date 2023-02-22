@@ -1,19 +1,17 @@
-import sys, heapq
+import heapq, sys
 
-INF = sys.maxsize
-
-n, D = map(int, input().split())
-road = [[] for _ in range(D+1)]
-dist = [INF] * (D + 1)
-
-# 이 부분을 생각 못함 
-for i in range(D):
-    road[i].append([i+1, 1])
-
+n, k = map(int, input().split())
+road = [[] for _ in range(k+1)]
 for _ in range(n):
     a, b, c = map(int, input().split())
-    if b <= D:
+    if b <= k:
         road[a].append([b, c])
+
+for i in range(k):
+    road[i].append([i+1, 1])
+
+INF = sys.maxsize
+dist = [INF for _ in range(k+1)]
 
 def dijkstra(start):
     minHeap = []
@@ -22,7 +20,7 @@ def dijkstra(start):
 
     while minHeap:
         d, now = heapq.heappop(minHeap)
-
+        
         if dist[now] != d:
             continue
 
@@ -33,7 +31,7 @@ def dijkstra(start):
                 heapq.heappush(minHeap, [cost, i[0]])
 
 dijkstra(0)
-print(dist[D])
+print(dist[k])
             
     
     
