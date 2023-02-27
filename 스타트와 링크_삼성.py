@@ -1,41 +1,30 @@
 n = int(input())
-s = []
+score = []
 for _ in range(n):
-    s.append(list(map(int, input().split())))
+    score.append(list(map(int, input().split())))
 
-start = []
-link = []
-visited = [False for _ in range(n)]
-answer = 100
-
-def pick(cnt):
+def dfs(d, idx):
     global answer
-
-    if cnt == n // 2:
-        # 링크 팀 구하기
+    if d == n//2:
+        ans1, ans2 = 0, 0
         for i in range(n):
-            if not visited[i]:
-                link.append(i)
+            for j in range(n):
+                if pick[i] and pick[j]:
+                    ans1 += score[i][j]
+                elif not pick[i] and not pick[j]:
+                    ans2 += score[i][j]
 
-        # 능력치 차이 계산하기
-        sscore, lscore = 0, 0
-        for i in range(n//2):
-            for j in range(n//2):
-                sscore += s[start[i]][start[j]]
-                lscore += s[link[i]][link[j]]
-
-        answer = min(answer, abs(sscore - lscore))
-        link.clear()
+        answer = min(answer, abs(ans1 - ans2))
+        return
 
     else:
-        # 스티트 팀 구하기
-        for i in range(n):
-            if not visited[i] and (len(start) == 0 or start[-1] < i):
-                start.append(i)
-                visited[i] = True
-                pick(cnt+1)
-                start.pop()
-                visited[i] = False
-
-pick(0)
+        for i in range(idx, n):
+            if not pick[i]:
+                pick[i] = True
+                dfs(d+1, i+1)
+                pick[i] = False
+        
+pick = [False] * n
+answer = float('inf')
+dfs(0, 0)
 print(answer)
