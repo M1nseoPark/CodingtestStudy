@@ -1,38 +1,35 @@
+from collections import deque
+
 test = int(input())
 for _ in range(test):
-    n, kv = map(int, input().split())
+    n, k = map(int, input().split())
     time = list(map(int, input().split()))
-    temp = [0] * n
-    arr = []
     
-    for i in range(kv):
-        arr.append(list(map(int, input().split())))
-    arr.sort()
+    graph = [[] for _ in range(n+1)]
+    indegree = [0 for _ in range(n+1)]
+    dp = [0 for _ in range(n+1)]
+    q = deque()
 
-    for i in range(kv):
-        temp[arr[i][1]-1] = temp[arr[i][0]-1] + 1
+    for i in range(k):
+        a, b = map(int, input().split())
+        graph[a].append(b)
+        indegree[b] += 1
 
-    order = {}
-    for i in range(n):
-        if temp[i] in order:
-            order[temp[i]].append(i)
-        else:
-            order[temp[i]] = [i]
-
-    order = sorted(order.items())
     w = int(input())
-    answer = [-1] * n
-    b = 0
-    for k, v in order:
-        t = []
-        for i in range(len(v)):
-            answer[v[i]] = time[v[i]] + b
-            t.append(answer[v[i]])
-            
-        if answer[w-1] != -1:
-            break
-        b = max(t)
 
-    print(answer[w-1])
-        
-        
+    for i in range(1, n+1):
+        if indegree[i] == 0:
+            q.append(i)
+            dp[i] = time[i-1]
+
+    while q:
+        now = q.popleft()
+
+        for i in graph[now]:
+            indegree[i] -= 1
+            dp[i] = max(dp[i], dp[now] + time[i-1])
+            if indegree[i] == 0:
+                q.append(i)
+
+    print(dp[w])
+    
