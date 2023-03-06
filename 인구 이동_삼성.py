@@ -1,61 +1,55 @@
-# 변수 많이 쓰면 틀릴 확률 높아짐! 최대한 적게 쓰는 방법 고민
-# bfs문은 원래 간단하게 짜나??
+from collections import deque
 
-import sys
-
-n, l, r = map(int, sys.stdin.readline().split())
-people = []
+n, l, r = map(int, input().split())
+A = []
 for _ in range(n):
-    people.append(list(map(int, sys.stdin.readline().split())))
+    A.append(list(map(int, input().split())))
 
-dx = [0, 0, -1, 1]
-dy = [-1, 1, 0, 0]
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
+day = 0
 
-def bfs(y, x):
-    global flag, result
-    q = [[y, x]]
-    temp = [[y, x]]
-    visited[y][x] = 1
-    result += people[y][x]
-
-    while q:
-        y, x = q.pop(0)
-        for i in range(4):
-            nx = x + dx[i]
-            ny = y + dy[i]
-            if 0 <= nx < n and 0 <= ny < n and visited[ny][nx] == 0:
-                if l <= abs(people[ny][nx] - people[y][x]) <= r:
-                    visited[ny][nx] = 1
-                    temp.append([ny, nx])
-                    result += people[ny][nx]
-                    q.append([ny, nx])
-                    flag = True
-
-    return temp
-
-
-answer = 0
-result = 0
 while True:
     visited = [[0] * n for _ in range(n)]
     flag = False
+
+    def bfs(y, x):
+        q = deque()
+        q.append([y, x])
+        visited[y][x] = 1
+        dic = {}
+        dic[(y, x)] = A[y][x]
+        temp = False
+
+        while q:
+            y, x = q.popleft()
+            
+            for i in range(4):
+                ny = y + dy[i]
+                nx = x + dx[i]
+                if 0 <= nx < n and 0 <= ny < n and visited[ny][nx] == 0:
+                    if l <= abs(A[y][x] - A[ny][nx]) <= r:
+                        visited[ny][nx] = 1
+                        q.append([ny, nx])
+                        dic[(ny, nx)] = A[ny][nx]
+                        temp = True
+
+        rst = sum(dic.values()) // len(dic)
+        for k, v in dic.items():
+            A[k[0]][k[1]] = rst
+
+        return temp
     
     for i in range(n):
         for j in range(n):
             if visited[i][j] == 0:
-                temp = bfs(i, j)
+                if bfs(i, j):
+                    flag = True
 
-                for k in range(len(temp)):
-                    y, x = temp[k]
-                    people[y][x] = result // len(temp)
-
-                result = 0
-
-    if flag:
-        answer += 1
-    else:
+    if not flag:
         break
 
-print(answer)
-        
+    day += 1
+
+print(day)
     
