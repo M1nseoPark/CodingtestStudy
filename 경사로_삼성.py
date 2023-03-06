@@ -19,19 +19,22 @@ def check(line):
             return False
 
         # 앞쪽이 더 클때, 뒤쪽이 더 클때 따로 처리해줘야 함!
+        # 내리막길(2 1(i) 1 1)
         if line[i] < line[i-1]:
             for j in range(l):
+                # 경사로를 놓다가 범위를 벗어나는 경우 or 낮은 지점의 칸의 높이가 같지 않거나 or 놓은 곳에 또 놓는 경우 
                 if i + j >= n or line[i] != line[i+j] or visited[i+j]:
                     return False
                 if line[i] == line[i+j]:
                     visited[i+j] = True
-                    
+
+        # 오르막길(1 1 1(i-1) 2)
         elif line[i] > line[i-1]:
             for j in range(l):
-                if i - j - 1 < 0 or line[i-1] != line[i-j-1] or visited[i-j-1]:
+                if i - 1 - j < 0 or line[i-1] != line[i-1-j] or visited[i-1-j]:
                     return False
-                if line[i-1] == line[i-j-1]:
-                    visited[i-j-1] = True
+                if line[i-1] == line[i-1-j]:
+                    visited[i-1-j] = True
 
     return True
 
@@ -39,6 +42,7 @@ def check(line):
 
 # 가로줄 확인
 for i in range(n):
+    # 경사로를 놓은 위치 표시 
     visited = [False for _ in range(n)]
     if check([maps[i][j] for j in range(n)]):
         answer += 1

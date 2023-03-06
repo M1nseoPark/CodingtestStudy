@@ -1,5 +1,5 @@
 # 범위 500,000 -> 이중 반복문 250,000,000,000
-
+'''
 n = int(input())
 top = list(map(int, input().split()))
 stack = []
@@ -20,5 +20,20 @@ for i in range(n):
 
 for i in range(n):
     print(answer[i], end=' ')
-
+'''    
     
+n = int(input())
+A = list(map(int, input().split()))
+
+stack = [0]
+answer = [0] * n
+
+for i in range(1, n):
+    while stack and A[stack[-1]] < A[i]:
+        stack.pop()
+
+    if len(stack) != 0:
+        answer[i] = stack[-1] + 1
+    stack.append(i)
+
+print(' '.join(map(str, answer)))
