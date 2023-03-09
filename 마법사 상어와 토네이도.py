@@ -1,66 +1,46 @@
 n = int(input())
-sand = []
+board = []
 for _ in range(n):
-    sand.append(list(map(int, input().split())))
+    board.append(list(map(int, input().split())))
 
-wind = []
-t = 1
-while t < n:
-    wind.append(t)
-    wind.append(t)
-    t += 1
-wind.append(n)
-
-# 이차원 배열 90도 회전하는 함수
-def rotate(arr):
-    new = list(reversed(list(zip(*arr))))
-    return new
-
-
-dx = [-1, 0, 1, 0]   # 서남동북
+dx = [-1, 0, 1, 0]
 dy = [0, 1, 0, -1]
-p = [[0, 0, 0.02, 0, 0],
-     [0, 0.1, 0.07, 0.01, 0],
-     [0.05, 0, 0, 0, 0],
-     [0, 0.1, 0.07, 0.01, 0],
-     [0, 0, 0.02, 0, 0]]
-p1 = rotate(p)
-p2 = rotate(p1)
-p3 = rotate(p2)
+size, c, d = 1, 0, 0
 
+move = {(-2,0):0.02, (-1,-1):0.10, (-1,0):0.07, (-1,1):0.01, (0,-2):0.05,
+        (1,-1):0.10, (1,0):0.07, (1,1):0.01, (2,0):0.02, (0,-1):0.55}
 
-def flutter(y, x, origin, dir):
-    iy, ix = 0, 0
-    stx, fix, sty, fiy = 0, 0, 0, 0
+y, x = n//2+1, n//2+1
+answer = 0
 
-    if 0 <= y - 2:
-        sty = y - 2
-    if 0 <= x - 2:
-        stx = x - 2
-    if y + 3 < n:
-        fiy = y + 3
-    if x + 3 < n:
-        fix = x + 3
+while True:
+    if y == 0 and x == 0:
+        break
 
-    for i in range(st, y+3):
-        ix = 0
-        for j in range(x-2, x+3):
-            sand[i][j] += origin * flu[dir][iy][ix]
-            ix += 1
-        iy += 1
+    for i in range(size):
+        y += dy[d]
+        x += dx[d]
+        
+        sand = board[y][x]
+        board[y][x] = 0
+        
+        for k, v in move.items():
+            ny = y + k[0]
+            nx = x + k[1]
 
+            if 0 > ny or 0 > nx or ny >= n or nx >= n:
+                answer += int(sand * v)
+            else:
+                board[ny][nx] += int(sand * v)
 
-d = 0
-x, y = 0, 0
-for w in wind:
-    for i in range(w):
-        y += dy[i]
-        x += dx[i]
-        origin = sand[y][x]
-        flutter(y, x, origin, d)
-
+    c += 1
     d = (d + 1) % 4
+    if c == 2:
+        c = 0
+        size += 1
 
-print('------')
-for i in range(n):
-    print(sand[i])
+    print(y, x)
+    for i in range(n):
+        print(board[i])
+        
+print(answer)
