@@ -1,71 +1,67 @@
 import copy
 
 n, m = map(int, input().split())
-office = []
+room = []
+for _ in range(n):
+    room.append(list(map(int, input().split())))
+
+mode = [[0], [[0], [1], [2], [3]], [[1, 3], [0, 2]],
+        [[0, 1], [1, 2], [2, 3], [0, 3]],
+        [[0, 1, 3], [0, 1, 2], [1, 2, 3], [0, 2, 3]],
+        [[0, 1, 2, 3]]]
+dx = [0, 1, 0, -1]
+dy = [-1, 0, 1, 0]
+
 cctv = []
 for i in range(n):
-    office.append(list(map(int, input().split())))
     for j in range(m):
-        if office[i][j] in [1, 2, 3, 4, 5]:
-            cctv.append([office[i][j], i, j])
+        if room[i][j] != 0 and room[i][j] != 6:
+            cctv.append([i, j, room[i][j]])
 
-mode = [[], [[0], [1], [2], [3]],
-        [[0, 2], [1, 3]],
-        [[0, 3], [0, 1], [1, 2], [2, 3]],
-        [[0, 2, 3], [0, 1, 3], [0, 1, 2], [1, 2, 3]],
-        [[0, 1, 2, 3]]]
-dx = [1, 0, -1, 0]
-dy = [0, 1, 0, -1]
+def bfs(arr):
+    temp = copy.deepcopy(room)
+    cnt = 0
+    
+    for i in range(len(arr)):
+        y, x, z, mm = arr[i]
+        for j in mm:
+            ny, nx = y, x
+            while True:
+                ny += dy[j]
+                nx += dx[j]
+                if ny < 0 or nx < 0 or ny >= n or nx >= m:
+                    break
 
-answer = n * m
+                if temp[ny][nx] == 6:
+                    break
 
+                if temp[ny][nx] == 0:
+                    temp[ny][nx] = z
 
-def fill(arr, mm, y, x):
-    for h in mm:
-        nx = x
-        ny = y
+    for i in range(n):
+        for j in range(m):
+            if temp[i][j] == 0:
+                cnt += 1
 
-        while True:
-            nx += dx[h]
-            ny += dy[h]
-            # 부등호 잘못 써서 한참 헤맴!!
-            if 0 > nx or 0 > ny or nx >= m or ny >= n:
-                break
-
-            if arr[ny][nx] == 6:
-                break
-
-            if arr[ny][nx] == 0:
-                arr[ny][nx] = 7
-
-    return arr
-
-
-def dfs(depth, arr):
-    global answer, n, m
-
-    if depth == len(cctv):
-        count = 0
-        # 사각지대 개수 세기
-        for i in range(n):
-            for j in range(m):
-                if arr[i][j] == 0:
-                    count += 1
-
-        answer = min(answer, count)
+    return cnt
+            
+                
+def dfs(idx, arr):
+    global answer
+    
+    if idx == len(cctv):
+        answer = min(answer, bfs(arr))
         return
 
-    else:
-        temp = copy.deepcopy(arr)
-        num, y, x = cctv[depth]
+    y, x, z = cctv[idx]
+    for i in range(len(mode[z])):
+        arr.append([y, x, z, mode[z][i]])
+        dfs(idx+1, arr)
+        arr.pop()
 
-        for i in mode[num]:
-            temp = fill(temp, i, y, x)
-            dfs(depth + 1, temp)
-            temp = copy.deepcopy(arr)
-
-
-dfs(0, office)
+        
+answer = float('inf')
+dfs(0, [])
 print(answer)
         
             
