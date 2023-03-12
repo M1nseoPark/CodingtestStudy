@@ -1,21 +1,17 @@
 k = int(input())
-arr = list(map(int, input().split()))
+A = list(map(int, input().split()))
+
 tree = [[] for _ in range(k)]
 
-def inorder(first, last, k):
-    if first == last:
-        tree[k].append(arr[first])
-        return
+def find(depth, s, e):
+    if depth == k:
+      return
+  
+    mid = (s + e) // 2
+    find(depth+1, s, mid)
+    find(depth+1, mid+1, e)
+    tree[depth].append(A[mid])
 
-    mid = (first + last) // 2
-    tree[k].append(arr[mid])
-    inorder(first, mid-1, k+1)
-    inorder(mid+1, last, k+1)
-
-
-inorder(0, len(arr)-1, 0)
+find(0, 0, len(A))
 for i in range(k):
-    for j in tree[i]:
-        print(j, end=' ')
-    print()
-    
+    print(' '.join(map(str, tree[i])))
