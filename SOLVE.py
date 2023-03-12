@@ -1,19 +1,23 @@
-k = int(input())
-A = list(map(int, input().split()))
+n, s, m = map(int, input().split())
+V = [0] + list(map(int, input().split()))
 
-tree = [[] for _ in range(k)]
+dp = [[0] * (m + 1) for _ in range(n+1)]
+dp[0][s] = 1
 
-def find(depth, s, e):
-    if depth == k:
-      return
-  
-    mid = (s + e) // 2
-    find(depth+1, s, mid)
-    find(depth+1, mid+1, e)
-    tree[depth].append(A[mid])
+for i in range(1, n+1):
+    for j in range(m+1):
+        if dp[i-1][j] == 1:
+            if j + V[i] <= m:
+                dp[i][j+V[i]] = 1
+            if j - V[i] >= 0:
+                dp[i][j-V[i]] = 1
 
-find(0, 0, len(A))
-for i in range(k):
-    print(' '.join(map(str, tree[i])))
+answer = -1
+for i in range(m, -1, -1):
+    if dp[n][i] == 1:
+        answer = i
+        break
 
-
+print(answer)
+    
+    
