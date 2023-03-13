@@ -7,28 +7,24 @@ board = [[[] for _ in range(n)] for _ in range(n)]
 mark = {}
 for i in range(1, k+1):
     y, x, d = map(int, input().split())
-    mark[i] = [y-1, x-1, d-1, 0]
+    mark[i] = [y-1, x-1, d-1]
     board[y-1][x-1].append(i)
 
 dx = [1, -1, 0, 0]   # 동, 서, 북, 남 
 dy = [0, 0, -1, 1]
 
 answer = 1
-while answer != 9:
+while True:
     if answer > 1000:
         break
 
-    for i in range(n):
-        print(board[i])
-    print('-------')
-
     end = False
     for i in range(1, k+1):
-        y, x, d, h = mark[i]
+        y, x, d = mark[i]
         ny = y + dy[d]
         nx = x + dx[d]
 
-        # 체스판 벗어나는 경우 and 파란색 
+        # 체스판 벗어나는 경우 or 파란색 
         if ny >=n or nx >= n or nx < 0 or ny < 0 or chess[ny][nx] == 2:
             if d == 0 or d == 2:
                 d += 1
@@ -37,58 +33,29 @@ while answer != 9:
 
             ny = y + dy[d]
             nx = x + dx[d]
-            if 0 <= ny < n and 0 <= nx < n:
-                if chess[ny][nx] == 0:
-                    nh = len(board[ny][nx])
-                    for j in range(h, len(board[y][x])):
-                        nd = mark[board[y][x][j]][2]
-                        mark[board[y][x][j]] = [ny, nx, nd, nh]
-                        board[ny][nx].append(board[y][x][j])
-                        nh += 1
-                        
-                    board[y][x] = board[y][x][:h]
-                    
-                elif chess[ny][nx] == 1:
-                    nh = len(board[ny][nx])
-                    temp = board[y][x][h:]
-                    temp.reverse()
-                    for j in range(len(temp)):
-                        nd = mark[temp[j]][2]
-                        mark[temp[j]] = [ny, nx, nd, nh]
-                        board[ny][nx].append(temp[j])
-                        nh += 1
-                    
-                    board[y][x] = board[y][x][:h]
-                    
-                else:
-                    mark[i] = [y, x, d, h]
+            if ny >= n or nx >= n or nx < 0 or ny < 0 or chess[ny][nx] == 2:
+                nx = x
+                ny = y
 
-            else:
-                mark[i] = [y, x, d, h]
+        mark[i] = [ny, nx, d]
+        if ny == y and nx == x:
+            continue
 
-        # 흰색 
-        elif chess[ny][nx] == 0:
-            nh = len(board[ny][nx])
-            for j in range(h, len(board[y][x])):
-                nd = mark[board[y][x][j]][2]
-                mark[board[y][x][j]] = [ny, nx, nd, nh]
-                board[ny][nx].append(board[y][x][j])
-                nh += 1
-                    
-            board[y][x] = board[y][x][:h]
+        idx = board[y][x].index(i)
+        # 해당 말 위에 있던 말 이동
+        for j in board[y][x][idx+1:]:   
+            mark[j][0] = ny
+            mark[j][1] = nx
 
-        # 빨간색 
-        else:
-            nh = len(board[ny][nx])
-            temp = board[y][x][h:]
-            temp.reverse()
-            for j in range(len(temp)):
-                nd = mark[temp[j]][2]
-                mark[temp[j]] = [ny, nx, nd, nh]
-                board[ny][nx].append(temp[j])
-                nh += 1
-                    
-            board[y][x] = board[y][x][:h]
+        # 옮긴 뒤의 색이 하얀색
+        if chess[ny][nx] == 0:
+            board[ny][nx] += board[y][x][idx:]
+
+        # 옮긴 뒤의 색이 빨간색
+        elif chess[ny][nx] == 1:
+            board[ny][nx] += board[y][x][idx:][::-1]
+
+        board[y][x] = board[y][x][:idx]
 
         if 0 <= ny < n and 0 <= nx < n and len(board[ny][nx]) >= 4:
             end = True
