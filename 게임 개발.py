@@ -18,15 +18,15 @@ q = deque()
 
 for i in range(1, n+1):
     if indegree[i] == 0:
-        q.append(i)   # 큐에 삽입되어 처리될 요소 
+        q.append(i)   
+        result[i] = time[i]
 
 while q:
     now = q.popleft()
-    result[now] += time[now]   # 처리 완료되었으니 time 더해줌 
     
     for i in graph[now]:
         indegree[i] -= 1
-        result[i] = max(result[i], result[now])   
+        result[i] = max(result[i], result[now] + time[i])   
         if indegree[i] == 0:
             q.append(i)
 
