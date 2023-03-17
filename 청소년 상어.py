@@ -45,7 +45,7 @@ def dfs(sx, sy, score, sea):
 
     # 상어 먹음
     sd = sea[sx][sy][1]
-    for i in range(1, 5):
+    for i in range(1, 4):
         nx = sx + dx[sd]*i
         ny = sy + dy[sd]*i
 
