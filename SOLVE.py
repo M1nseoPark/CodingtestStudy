@@ -1,42 +1,33 @@
-sea = []
-for _ in range(4):
-    a, b, c, d, e, f, g, h = map(int, input().split())
-    sea.append([[a, b-1], [c, d-1], [e, f-1], [g, h-1]])
+import sys
 
-dx = [0, -1, -1, -1, 0, 1, 1, 1]
-dy = [-1, -1, 0, 1, 1, 1, 0, -1]
+n, m = map(int, sys.stdin.readline().split())
+memory = [0] + list(map(int, sys.stdin.readline().split()))
+cost = [0] + list(map(int, sys.stdin.readline().split()))
 
-dic = {}
-for i in range(4):
-    for j in range(4):
-        dic[sea[i][j][0]] = [i, j, sea[i][j][1]]
+# dp[i][j] = i번째 앱까지 살펴봤을 때, j만큼의 비용 사용하여 확보할 수 있는 최대 메모리 
+dp = [[0] * 10001 for _ in range(n+1)] 
+answer = float('inf')
 
-sy, sx, sd = 0, 0, sea[0][0][1]
-answer = sea[0][0][0]
-del sea[0][0][0]
-sea[0][0] = [0, 0]
+for i in range(1, n+1):
+    for j in range(1, 10001):
+        M = memory[i]
+        c = cost[i]
 
-while True:
-    for i in range(1, 17):
-        if i in dic:
-            y, x, d = dic[i]
+        if j < c:
+            dp[i][j] = dp[i-1][j]
+        else:
+            dp[i][j] = max(dp[i-1][j], dp[i-1][j-c] + M)
 
-            for _ in range(8):
-                ny = y + dy[d]
-                nx = x + dx[d]
+        if dp[i][j] >= m:
+            answer = min(j, answer)
+            break
+            
 
-                if 0 > ny or 0 > nx or ny >= 4 or nx >= 4 or (sy == ny and sx == nx):
-                    d = (d + 1) % 8
-                    continue
+print(answer)
+        
+        
+        
 
-                if sea[ny][nx][0] != 0:
-                    cy, cx, cd = dic[sea[ny][nx][0]]
-                    sea[y][x] = [sea[ny][nx][0], sea[ny][nx][1]]
-                    sea[ny][nx] = [i, d]
-                    dic[sea[y][x][0]] = [ny, nx, 
-                    
-
-                sea[y][x] = []
 
 
     
