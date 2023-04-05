@@ -1,26 +1,33 @@
 from itertools import combinations
 
 def solution(relation):
+    answer = 0
     n = len(relation)
     m = len(relation[0])
-
+    
     combi = []
     for i in range(1, n+1):
         combi.extend(combinations(range(m), i))
-
+    
     key = []
     for c in combi:
-        temp = [tuple([item[i] for i in c]) for item in relation]
-
-        if len(temp) == n:
+        result = set()
+        
+        for i in range(n):
+            temp = []
+            for j in c:
+                temp.append(relation[i][j])
+            result.add(tuple(temp))
+        
+        if len(result) == n:
             flag = True
-
-            for k in key:
-                if set(k).issubset(set(c)):
+            for i in range(len(key)):
+                if key[i].issubset(set(c)):
                     flag = False
                     break
-
+            
             if flag:
-                key.append(c)
-
-    return len(key)
+                key.append(set(c))
+                answer += 1
+                    
+    return answer
