@@ -34,13 +34,13 @@ def pick():
                 if 0 > ny or 0 > nx or ny >= n or nx >= n:
                     break
                 
-                if board[ny][nx] <= 0:  # 제초제 있는 지점도 
+                if board[ny][nx] == 0 or board[ny][nx] == -1:
                     break
                 
                 result[-1][0] += board[ny][nx]
     
     result.sort(key=lambda x:(-x[0], x[1], x[2]))
-    return result[0]   
+    return result[0]
 
 
 answer = 0
@@ -81,34 +81,32 @@ for year in range(m):
             tree[(by, bx)] = bz
         board[by][bx] += bz
     
-    if len(tree) > 0:
-        _, ky, kx = pick()
+    _, ky, kx = pick()
 
-        # 제초제 뿌림 
-        kill = [[ky, kx]]
-        answer += board[ky][kx]
-        board[ky][kx] = -2
-        del tree[(ky, kx)]
+    # 제초제 뿌림 
+    kill = [[ky, kx]]
+    answer += board[ky][kx]
+    board[ky][kx] = -2
+    del tree[(ky, kx)]
 
-        for i in range(4, 8):
-            for j in range(1, k+1):
-                nx = kx + dx[i] * j
-                ny = ky + dy[i] * j
-                if 0 > ny or 0 > nx or ny >= n or nx >= n:
-                    break
-                    
-                if board[ny][nx] <= 0:
-                    kill.append([ny, nx])
-                    board[ny][nx] = -2
-                    break
-                    
+    for i in range(4, 8):
+        for j in range(1, k+1):
+            nx = kx + dx[i] * j
+            ny = ky + dy[i] * j
+            if 0 > ny or 0 > nx or ny >= n or nx >= n:
+                break
+                
+            if board[ny][nx] == 0 or board[ny][nx] == -1:
                 kill.append([ny, nx])
-                answer += board[ny][nx]
-                del tree[(ny, nx)]
                 board[ny][nx] = -2
-        
-        killer.append(kill)
-
+                break
+                
+            kill.append([ny, nx])
+            answer += board[ny][nx]
+            del tree[(ny, nx)]
+            board[ny][nx] = -2
+    
+    killer.append(kill)
     if year > c:
         kill = killer.popleft()
         for ky, kx in kill:
