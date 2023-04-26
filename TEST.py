@@ -1,12 +1,30 @@
-n = int(input())
-arr = []
-for _ in range(n):
-    arr.append(float(input()))
+for _ in range(3):
+    n = int(input())
+    coin = []
+    total = 0
+    for i in range(n):
+        a, b = map(int, input().split())
+        coin.append([a, b])
+        total += a * b
 
-dp = [0] * n
-dp[0] = arr[0]
+    if total % 2 == 1:
+        print(0)
+        continue
 
-for i in range(1, n):
-    dp[i] = max(arr[i], dp[i-1] * arr[i])
+    total //= 2
+    dp = [True] + [False] * (total + 1)
+    answer = 0
 
-print("{:.3f}".format(1.1700000000000002))
+    for i in range(n):
+        k, c = coin[i]
+
+        for j in range(total, k-1, -1):
+            if dp[j-k]:
+                for t in range(c):
+                    if j + k * t <= total:
+                        
+        
+
+    
+
+        
