@@ -1,30 +1,15 @@
-for _ in range(3):
+t = int(input())
+for _ in range(t):
     n = int(input())
-    coin = []
-    total = 0
-    for i in range(n):
-        a, b = map(int, input().split())
-        coin.append([a, b])
-        total += a * b
 
-    if total % 2 == 1:
-        print(0)
-        continue
+    zero = [0] * 41
+    one = [0] * 41
 
-    total //= 2
-    dp = [True] + [False] * (total + 1)
-    answer = 0
+    zero[0] = 1
+    one[1] = 1
 
-    for i in range(n):
-        k, c = coin[i]
-
-        for j in range(total, k-1, -1):
-            if dp[j-k]:
-                for t in range(c):
-                    if j + k * t <= total:
-                        
-        
-
+    for i in range(2, n+1):
+        zero[i] = zero[i-1] + zero[i-2]
+        one[i] = one[i-1] + one[i-2]
     
-
-        
+    print(zero[n], one[n])
