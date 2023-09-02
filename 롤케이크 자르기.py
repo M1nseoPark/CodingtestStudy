@@ -1,5 +1,6 @@
 from collections import Counter
 
+# 모범답안 
 def solution(topping):
     dic = Counter(topping)
     s = set()
@@ -13,6 +14,27 @@ def solution(topping):
             del dic[i]
 
         if len(dic) == len(s):
+            answer += 1
+
+    return answer
+
+
+# 내가 푼 다른 풀이 
+def solution(topping):
+    llst, rlst = [], []
+    lset, rset = set(), set()
+    n = len(topping)
+    answer = 0
+    
+    for i in range(n):
+        lset.add(topping[i])
+        rset.add(topping[n-1-i])
+        
+        llst.append(len(lset))
+        rlst.append(len(rset))
+    
+    for i in range(n-1):
+        if llst[i] == rlst[n-2-i]:
             answer += 1
 
     return answer
