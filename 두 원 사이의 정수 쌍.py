@@ -11,4 +11,4 @@ def solution(r1, r2):
         
         answer += maxY - minY + 1
         
-    return answer * 4
+    return answer * 4 
