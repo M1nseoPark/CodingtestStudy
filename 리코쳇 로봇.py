@@ -28,25 +28,25 @@ def solution(board):
             answer = dict[y][x]
             break
         
-        ny, nx = y, x
         for i in range(4):
+            ny, nx = y, x
+            
             while True:
                 ny += dy[i]
                 nx += dx[i]
                 
                 if ny < 0 or ny >= n or nx < 0 or nx >= m:
-                    print(ny-dy[i], nx-dx[i])
-                    if dict[ny-dy[i]][nx-dx[i]] == -1:
-                        q.append([ny-dy[i], nx-dx[i]])
-                        dict[ny-dy[i]][nx-dx[i]] = dict[y][x] + 1
+                    ny -= dy[i]
+                    nx -= dx[i]
                     break
                 
                 if board[ny][nx] == 'D':
-                    if dict[ny-dy[i]][nx-dx[i]] == -1:
-                        q.append([ny-dy[i], nx-dx[i]])
-                        dict[ny-dy[i]][nx-dx[i]] = dict[y][x] + 1
+                    ny -= dy[i]
+                    nx -= dx[i]
                     break
             
+            if dict[ny][nx] == -1:
+                q.append([ny, nx])
+                dict[ny][nx] = dict[y][x] + 1
+    
     return answer
-
-solution(["...D..R", ".D.G...", "....D.D", "D....D.", "..D...."])
