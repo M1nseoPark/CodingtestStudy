@@ -1,64 +1,60 @@
-n, m, h = map(int, input().split())
-line = [[0] * n for _ in range(h)]
-for i in range(m):
-    a, b = map(int, input().split())
-    line[a-1][b-1] = 1
-
-sub = []
-answer = 400
-for i in range(h):
-    for j in range(n-1):
-        if line[i][j] == 0:
-            if j == 0:
-                if line[i][j+1] == 0:
-                    sub.append([i, j])
-            elif j == n - 1:
-                if line[i][j-1] == 0:
-                    sub.append([i, j])
-            else:
-                if line[i][j-1] == 0 and line[i][j+1] == 0:
-                    sub.append([i, j])
-
-
-def check():
-    for i in range(n):
-        now = i
-        for j in range(h):
-            if now == 0 and line[j][now] == 1:
-                now += 1
-            elif now == (n - 1) and line[j][now-1] == 1:
-                now -= 1
-            elif 0 < now < (n - 1):
-                if line[j][now-1] == 1:
-                    now -= 1
-                elif line[j][now] == 1:
-                    now += 1
-            print(now)
-        print('----')
-        if now != i:
-            return False
+def divide(w):
+    openP = 0
+    closeP = 0
     
+    for i in range(len(w)):
+        if w[i] == '(':
+            openP += 1
+        else:
+            closeP += 1
+        if openP == closeP:
+            return w[:i + 1], w[i + 1:]
+ 
+ 
+# 문자열 u가 올바른 괄호 문자열인지 확인하는 함수
+def isBalanced(u):
+    stack = []
+    
+    for p in u:
+        if p == '(':
+            stack.append(p)
+        else:
+            if not stack:
+                return False
+            stack.pop()
+            
     return True
-
-
-def dfs(cnt):
-    global answer
-    if cnt > 3:
-        return
-
-    if check():
-        answer = min(answer, cnt)
-        return
+ 
+ 
+def solution(w):
+    # 과정 1
+    if not w:
+        return ""
     
-    for i in range(len(sub)):
-        line[sub[i][0]][sub[i][1]] = 1
-        dfs(cnt + 1)
-        line[sub[i][0]][sub[i][1]] = 0
+    # 과정 2
+    u, v = divide(w)
+    
+    # 과정 3
+    if isBalanced(u):
+        # 과정 3-1
+        return u + solution(v)
+    # 과정 4
+    else:
+        # 과정 4-1
+        answer = '('
+        # 과정 4-2
+        answer += solution(v)
+        # 과정 4-3
+        answer += ')'
+        
+        # 과정 4-4
+        for p in u[1:len(u) - 1]:
+            if p == '(':
+                answer += ')'
+            else:
+                answer += '('
+        
+        # 과정 4-5
+        return answer
 
-
-dfs(0)
-
-if answer == 400:
-    print(-1)
-else:
-    print(answer)
+solution("()))((()")
