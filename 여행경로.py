@@ -1,3 +1,4 @@
+# DFS 풀이 
 def solution(tickets):
     answer = []
     visited = [False] * len(tickets)
@@ -19,4 +20,27 @@ def solution(tickets):
     return answer[0]
 
 
-print(solution([["ICN", "JFK"], ["HND", "IAD"], ["JFK", "HND"]]))
+# BFS 풀이 
+from collections import deque
+
+def solution(tickets):
+    answer = []
+    q = deque()
+    q.append(['ICN', ['ICN'], []])
+    
+    while q:
+        now, path, visited = q.popleft()
+        
+        if len(visited) == len(tickets):
+            answer.append(path)
+        
+        for idx, ticket in enumerate(tickets):
+            if now == ticket[0] and idx not in visited:
+                visited.append(idx)
+                path.append(ticket[1])
+                q.append([ticket[1], path[:], visited[:]])
+                visited.pop()
+                path.pop()
+    
+    answer.sort()
+    return answer[0]
