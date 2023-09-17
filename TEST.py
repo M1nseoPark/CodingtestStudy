@@ -1,52 +1,48 @@
-from collections import deque
+n, m = map(int, input().split())
+y, x, d = map(int, input().split())
+board = []
+for _ in range(n):
+    board.append(list(map(int, input().split())))
 
-def solution(board):
-    answer = -1
-    
-    n, m = len(board), len(board[0])
-    dy = [-1, 1, 0, 0]
-    dx = [0, 0, -1, 1]
-    sy, sx, ey, ex = -1, -1, -1, -1
-    
+visited = [[False] * m for _ in range(n)]
+visited[y][x] = True
+
+dx = [0, 1, 0, -1]
+dy = [-1, 0, 1, 0]
+
+while True:
+    flag = False
+
     for i in range(n):
-        board[i] = list(board[i])
-        for j in range(m):
-            if board[i][j] == 'R':
-                sy, sx = i, j
-            elif board[i][j] == 'G':
-                ey, ex = i, j
-    
-    q = deque()
-    q.append([sy, sx])
-    dict = [[-1] * m for _ in range(n)]
-    dict[sy][sx] = 0
-    
-    while q:
-        y, x = q.popleft()
-        
-        if y == ey and x == ex:
-            answer = dict[y][x]
-            break
-        
-        ny, nx = y, x
-        for i in range(4):
-            while True:
-                ny += dy[i]
-                nx += dx[i]
-                
-                if ny < 0 or ny >= n or nx < 0 or nx >= m:
-                    print(ny-dy[i], nx-dx[i])
-                    if dict[ny-dy[i]][nx-dx[i]] == -1:
-                        q.append([ny-dy[i], nx-dx[i]])
-                        dict[ny-dy[i]][nx-dx[i]] = dict[y][x] + 1
-                    break
-                
-                if board[ny][nx] == 'D':
-                    if dict[ny-dy[i]][nx-dx[i]] == -1:
-                        q.append([ny-dy[i], nx-dx[i]])
-                        dict[ny-dy[i]][nx-dx[i]] = dict[y][x] + 1
-                    break
-            
-    return answer
+        print(visited[i])
+    print('----')
 
-solution(["...D..R", ".D.G...", "....D.D", "D....D.", "..D...."])
+    for i in range(4):
+        d = (d - 1) % 4
+        y = y + dy[d]
+        x = x + dx[d]
+
+        if 0 <= y < n and 0 <= x < m and not visited[y][x]:
+            visited[y][x] = True
+            flag = True
+            break
+    
+    if not flag:
+        if d < 2:
+            d += 2
+        else:
+            d -= 2
+        
+        y = y + dy[d]
+        x = x + dx[d]
+        
+        if 0 > y or y >= n or 0 > x or x >= m:
+            break
+
+answer = 0
+for i in range(n):
+    for j in range(m):
+        if visited[i][j]:
+            answer += 1
+
+print(answer)
