@@ -1,35 +1,41 @@
-'''
-1 3 6 10
-3 5 9 
-3 7 12 18
-4 9 15 22
+def find_parent(parent, x):
+    if parent[x] != x:
+        parent[x] = find_parent(parent, parent[x])
+    return parent[x]
 
-1 3 6 10
-3 8 15 24
-6 15 27 42
-10 24 42 64
-'''
-n, m = map(int, input().split())
-arr = []
-for _ in range(n):
-    arr.append(list(map(int, input().split())))
+def union_parent(parent, a, b):
+    a = find_parent(parent, a)
+    b = find_parent(parent, b)
 
-for i in range(n):
-    for j in range(1, n):
-        arr[i][j] += arr[i][j-1]
-
-for i in range(1, n):
-    for j in range(n):
-        arr[i][j] += arr[i-1][j]
-
-
-for _ in range(m):
-    y1, x1, y2, x2 = map(int, input().split())
-    if x1 > 2 and y1 > 2:
-        print(arr[y2-1][x2-1] - arr[y2-1][x1-2] - arr[y1-2][x1-1] + arr[y1-2][x1-2])
-    elif x1 > 2:
-        print(arr[y2-1][x2-1] - arr[y2-1][x1-2])
-    elif y1 > 2:
-        print(arr[y2-1][x2-1] - arr[y1-2][x1-1])
+    if a > b:
+        parent[a] = b
     else:
-        print(arr[y2-1][x2-1])
+        parent[b] = a
+
+n = int(input())
+m = int(input())
+board = []
+for _ in range(n):
+    board.append(list(map(int, input().split())))
+
+plan = list(map(int, input().split()))
+parent = [i for i in range(n)]
+
+edges = set()
+for i in range(n):
+    for j in range(n):
+        if board[i][j] == 1:
+            temp = [i, j]
+            temp.sort()
+            edges.add(tuple(temp))
+
+for a, b in edges:
+    union_parent(parent, a, b)
+
+answer = 'YES'
+for i in range(1, m):
+    if parent[plan[0]-1] != parent[plan[i]-1]:
+        answer = 'NO'
+        break
+
+print(answer)
