@@ -28,10 +28,10 @@ def solution(s):
             q = deque()
 
             # 0이 나오기 전까지는 append
-            while stack:
+            while stack:  # 110을 모두 제외한 문자열 = (100111100 -> 100110)
                 if stack[-1] == '1':
-                    q.append(stack.pop())
-                else:
+                    q.append(stack.pop())  # 1을 먼저 큐 뒤에 추가해줘서 뒤로 보내버리려는 
+                else:  # 처음으로 0이 나오면 break 
                     break
 
             # 0이 나왔다면 110을 주어진 cnt만큼 append
