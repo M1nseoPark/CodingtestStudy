@@ -1,7 +1,7 @@
 from collections import Counter
 
 def solution(a):
-    answer = -1
+    answer = 0
     dic = Counter(a)
 
     for k, v in dic.items():
@@ -18,9 +18,6 @@ def solution(a):
             idx += 2
         
         answer = max(cnt, answer)
-    
-    if answer == -1:
-        return -1
     
     return answer * 2
         
