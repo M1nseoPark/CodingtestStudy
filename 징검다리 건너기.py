@@ -2,7 +2,7 @@ def solution(stones, k):
     answer = 0
     left, right = 1, 200000000
     
-    while left <= right:
+    while left < right:
         mid = (left + right) // 2
         cnt = 0
         
@@ -19,6 +19,6 @@ def solution(stones, k):
             answer = mid
             left = mid + 1
         else:
-            right = mid - 1
+            right = mid
         
     return answer
