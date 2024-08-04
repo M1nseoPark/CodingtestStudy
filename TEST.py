@@ -1,42 +1,21 @@
-def solution(n, build_frame):
-    answer = []
-    board = [[[0] * 2 for _ in range(n+1)] for _ in range(n+1)]  # 기둥, 보
-    
-    def check(y, x, type):
-        if type == 0:  # 기둥
-            if (y == 0) or (x-1 >= 0 and board[y][x-1][1] == 1) or board[y-1][x][0] == 1:
-                return True
-        else:  # 보 
-            if (y > 0 and board[y-1][x][0] == 1) or (y > 0 and x < n and board[y-1][x+1][0] == 1) or ((x-1 >= 0 and board[y][x-1][1] == 1) and (x < n and board[y][x+1][1] == 1)):
-                return True
-            
-        return False
-    
-    
-    for x, y, a, b in build_frame:
-        if b == 1:  # 설치
-            if check(y, x, a):
-                board[y][x][a] = 1
-                    
-        else:  # 삭제
-            if a == 0:  # 기둥 
-                board[y][x][0] = 0
-                if not ((board[y][x][1] == 0 or check(y, x, 1)) and (y+1 > n or board[y+1][x][0] == 0 or check(y+1, x, 0)) and (x-1 < 0 or board[y][x-1][1] == 0 or check(y, x-1, 1))):
-                    board[y][x][0] = 1
+dx = [0, 0, -1, 1]
+dy = [-1, 1, 0, 0]
+visited = [[0] * m for _ in range(n)]
 
-            else:  # 보
-                board[y][x][1] = 0
-                if not ((board[y][x][0] == 0 or check(y, x, 0)) and (x+1 > n or board[y][x+1][1] == 0 or check(y, x+1, 1)) and (x-1 < 0 or board[y][x-1][1] == 0 or check(y, x-1, 1)) and (x+1 > n or board[y][x+1][0] == 0 or check(y, x+1, 0))):
-                    board[y][x][1] = 1
-    
-    for y in range(n+1):
-        for x in range(n+1):
-            if board[y][x][0] == 1:
-                answer.append([x, y, 0])
-            if board[y][x][1] == 1:
-                answer.append([x, y, 1])
-    
-    answer.sort()
-    return answer
+def bfs(y, x):
+    q = deque()
+    q.append([y, x])
+    visited[y][x] = 1
 
-solution(5, [[0,0,0,1],[2,0,0,1],[4,0,0,1],[0,1,1,1],[1,1,1,1],[2,1,1,1],[3,1,1,1],[2,0,0,0],[1,1,1,0],[2,2,0,1]])
+    while q:
+        y, x = q.popleft()
+
+        if y == (n - 1) and x == (m - 1):
+            break
+
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+
+            if 0 <= nx < m and 0 <= ny < n and maze[ny][nx] == 1 and visited[ny][nx] == 1:
+                visited[ny]
