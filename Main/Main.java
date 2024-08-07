@@ -1,21 +1,18 @@
 
-import java.util.Scanner;
+import java.util.*;
 
 
 public class Main {
     public static void main(String[] arg) {
         Scanner in = new Scanner(System.in);
-        int score = in.nextInt();
+        ArrayList<Integer> arr = new ArrayList<>();
 
-        if (90 <= score && score <= 100)
-            System.out.println("A");
-        else if (80 <= score && score <= 89)
-            System.out.println("B");
-        else if (70 <= score && score <= 79)
-            System.out.println("C");
-        else if (60 <= score && score <= 69)
-            System.out.println("D");    
-        else
-            System.out.println("F");  
+        for (int i = 0; i < 3; i++) 
+            arr.add(in.nextInt());
+
+        arr.sort(Comparator.naturalOrder());
+
+        for (int i = 0; i < 3; i++)
+            System.out.print(arr.get(i) + " ");
     }
 }
