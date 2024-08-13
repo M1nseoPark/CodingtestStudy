@@ -8,15 +8,32 @@ public class Main {
         List<Integer> list = new ArrayList<>();
         int sum = 0;
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 9; i++) {
             int x = in.nextInt();
             list.add(x);
             sum += x;
         }
 
-        list.sort(Comparator.naturalOrder());
+        boolean flag = true;
 
-        System.out.println(sum / 5);
-        System.out.println(list.get(2));
+        for (int i = 0; i < 8; i++) {
+            for (int j = i + 1; j < 9; j++) {
+                if ((list.get(i) + list.get(j)) == (sum - 100)) {
+                    list.set(i, 0);
+                    list.set(j, 0);
+                    flag = false;
+                }
+
+                if (!flag)
+                    break;
+            }
+
+            if (!flag)
+                break;
+        }
+
+        list.sort(Comparator.naturalOrder());
+        for (int i = 2; i < 9; i++)
+            System.out.println(list.get(i));
     }
 }
