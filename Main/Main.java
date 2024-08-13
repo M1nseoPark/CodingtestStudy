@@ -5,19 +5,27 @@ import java.util.*;
 public class Main {
     public static void main(String[] arg) {
         Scanner in = new Scanner(System.in);
-        int a = in.nextInt();
-        int b = in.nextInt();
-        int c = in.nextInt();
 
-        if (a == b && b == c && a == c)
-            System.out.println(10000 + a * 1000);
-        else if (a == b && b != c)
-            System.out.println(1000 + a * 1000);
-        else if (b == c && a != b)
-            System.out.println(1000 + b * 1000);
-        else if (a == c && b != c)
-            System.out.println(1000 + a * 1000);
-        else
-            System.out.println(Math.max(a, Math.max(b, c)) * 100);
+        for (int i = 0; i < 3; i++) {
+            String input = in.nextLine();
+            String[] arr = input.split(" ");
+            int cnt = 0;
+
+            for (int j = 0; j < 4; j++) {
+                if (arr[j].equals("0"))
+                    cnt++;
+            }
+
+            if (cnt == 4)
+                System.out.println("D");
+            else if (cnt == 3)
+                System.out.println("C");
+            else if (cnt == 2)
+                System.out.println("B");
+            else if (cnt == 1)
+                System.out.println("A");
+            else
+                System.out.println("E");
+        }
     }
 }
