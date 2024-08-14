@@ -5,16 +5,23 @@ import java.util.*;
 public class Main {
     public static void main(String[] arg) {
         Scanner in = new Scanner(System.in);
-        long a = in.nextLong();
-        long b = in.nextLong();
+        int n = in.nextInt();
+        int y = 0;
+        int m = 0;
 
-        if (a == b) 
-            System.out.println(0);
-        else {
-            System.out.println(Math.max(a, b) - Math.min(a, b) - 1);
+        for (int i = 0; i < n; i++) {
+            int time = in.nextInt();
 
-            for (long i = Math.min(a, b) + 1; i < Math.max(a, b); i++) 
-                System.out.print(i + " ");
+            y += (time / 30 + 1) * 10;
+            m += (time / 60 + 1) * 15;
         }
+        
+        if (y == m) 
+            System.out.println("Y M " + y);
+        else if (y < m)
+            System.out.println("Y " + y);
+        else
+            System.out.println("M " + m);
+    
     }
 }
