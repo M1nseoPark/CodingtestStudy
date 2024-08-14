@@ -9,6 +9,6 @@ public class Main {
         int n = in.nextInt();
 
         for (int i = 0; i < n; i++) 
-            System.out.println("*".repeat(n-i));
+            System.out.println(" ".repeat(i) + "*".repeat(n-i));
     }
 }
