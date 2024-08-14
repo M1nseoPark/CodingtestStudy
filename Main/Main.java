@@ -7,11 +7,9 @@ public class Main {
         Scanner in = new Scanner(System.in);
 
         int n = in.nextInt();
-        int x = n * 2 - 1;
 
-        for (int i = 1; i < n+1; i++) {
-            int y = 2 * i - 1;
-            System.out.println(" ".repeat((x-y)/2) + "*".repeat(y));
+        for (int i = 0; i < 2*n; i+=2) {
+            System.out.println(" ".repeat(i/2) + "*".repeat(2*n-1-i));
         } 
             
     }
@@ -19,8 +17,8 @@ public class Main {
 
 
 
-//     *
-//    ***
-//   *****
-//  *******
 // *********
+//  ******* (1)
+//   ***** (2)
+//    *** (3)
+//     * (4)
