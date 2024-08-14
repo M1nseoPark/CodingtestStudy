@@ -1,23 +1,27 @@
 
-import java.util.*;
+import java.io.*;
 
 
 public class Main {
     public static void main(String[] arg) {
-        Scanner in = new Scanner(System.in);
-        List<Integer> list = new ArrayList<>();
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-        for (int i = 1; i < 21; i++)
-            list.add(i);
+        try {
+            int test = Integer.parseInt(br.readLine());
 
-        for (int i = 0; i < 10; i++) {
-            int s = in.nextInt();
-            int e = in.nextInt();
+            for (int i = 0; i < test; i++) {
+                String[] input = br.readLine().split(" ");
+                int a = Integer.parseInt(input[0]);
+                int b = Integer.parseInt(input[1]);
 
-            Collections.reverse(list.subList(s-1, e));
-        }
+                bw.write((a + b) + "");
+                bw.write("\n");
+            }
         
-        for (int i = 0; i < 20; i++) 
-            System.out.print(list.get(i) + " ");
+            bw.flush();
+            bw.close();
+        } 
+        catch (Exception e) { }
     }
 }
