@@ -5,24 +5,23 @@ import java.util.*;
 public class Main {
     public static void main(String[] arg) {
         Scanner in = new Scanner(System.in);
-
-        int n = in.nextInt();
-        int x = 2 * n - 1;
-
-        for (int i = 0; i < n-1; i++) 
-            System.out.println(" ".repeat(i) + "*".repeat(x-2*i));
         
-        //System.out.println("*".repeat(x));
+        List<Integer> list = new ArrayList<>();
+        int max = 0;
+        int idx = 0;
 
-        for (int i = n-1; i >= 0; i--) 
-            System.out.println(" ".repeat(i) + "*".repeat(x-2*i));
+        for (int i = 0; i < 9; i++) {
+            int n = in.nextInt();
+            list.add(n);
+
+            if (n > max) {
+                max = n;
+                idx = i;
+            }
+        }
+
+        System.out.println(max);
+        System.out.println(idx+1);
     }
 }
 
-
-
-// *********
-//  ******* (1)
-//   ***** (2)
-//    *** (3)
-//     * (4)
