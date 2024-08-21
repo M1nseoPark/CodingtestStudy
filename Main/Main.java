@@ -7,17 +7,15 @@ public class Main {
         Scanner in = new Scanner(System.in);
 
         int n = in.nextInt();
-        int x = 2 * n - 1;
+        int x = 2 * n;
 
-        for (int i = 0; i < n; i++) {
-            int y = 2 * i + 1;
-            System.out.println(" ".repeat((x-y)/2) + "*".repeat(y));
-        } 
+        for (int i = 1; i < n; i++) 
+            System.out.println("*".repeat(i) + " ".repeat(x-2*i) + "*".repeat(i));
+        
+        System.out.println("*".repeat(x));
 
-        for (int i = 2; i < 2*n; i+=2) {
-            System.out.println(" ".repeat(i/2) + "*".repeat(2*n-1-i));
-        } 
-            
+        for (int i = n-1; i > 0; i--) 
+            System.out.println("*".repeat(i) + " ".repeat(x-2*i) + "*".repeat(i));
     }
 }
 
