@@ -6,19 +6,24 @@ public class Main {
     public static void main(String[] arg) {
         Scanner in = new Scanner(System.in);
         
-        String str = in.nextLine();
-        ArrayList<Integer> list = new ArrayList<>();
+        int a = in.nextInt();
+        int b = in.nextInt();
+        int c = in.nextInt();
 
-        for (int i = 0; i < 26; i++) 
+        ArrayList<Integer> list = new ArrayList<>();
+        int n = a * b * c;
+
+        for (int i = 0; i < 10; i++) 
             list.add(0);
 
-        for (int i = 0; i < str.length(); i++) {
-            int n = list.get((int)str.charAt(i)-97);
-            list.set((int)str.charAt(i)-97, ++n);
+        while (n != 0) {
+            int x = n % 10;
+            list.set(x, list.get(x)+1);
+            n = n / 10;
         }
 
-        for (int i = 0; i < 26; i++)
-            System.out.print(list.get(i) + " ");
+        for (int i = 0; i < 10; i++)
+            System.out.println(list.get(i));
     }
 }
 
