@@ -6,22 +6,19 @@ public class Main {
     public static void main(String[] arg) {
         Scanner in = new Scanner(System.in);
         
-        List<Integer> list = new ArrayList<>();
-        int max = 0;
-        int idx = 0;
+        String str = in.nextLine();
+        ArrayList<Integer> list = new ArrayList<>();
 
-        for (int i = 0; i < 9; i++) {
-            int n = in.nextInt();
-            list.add(n);
+        for (int i = 0; i < 26; i++) 
+            list.add(0);
 
-            if (n > max) {
-                max = n;
-                idx = i;
-            }
+        for (int i = 0; i < str.length(); i++) {
+            int n = list.get((int)str.charAt(i)-97);
+            list.set((int)str.charAt(i)-97, ++n);
         }
 
-        System.out.println(max);
-        System.out.println(idx+1);
+        for (int i = 0; i < 26; i++)
+            System.out.print(list.get(i) + " ");
     }
 }
 
