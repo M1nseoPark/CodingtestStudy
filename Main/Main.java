@@ -8,33 +8,31 @@ public class Main {
         
         int n = in.nextInt();
         
-        List<String> arr = new ArrayList<>();
-        int answer = 1;
+        List<Integer> arr = new ArrayList<>();
+        for (int i = 0; i < n; i++) 
+            arr.add(in.nextInt());
 
-        for (int i = 0; i < 10; i++) 
-            arr.add(Integer.toString(i));
+        int x = in.nextInt();
+        arr.sort(Comparator.naturalOrder());
+        int answer = 0;
 
-        while (n > 0) {
-            String t = Integer.toString(n % 10);
-            n = n / 10;
+        int left = 0;
+        int right = n-1;
 
-            if (arr.contains(t))
-                arr.remove(t);
-            else {
-                if (t.equals("6") && arr.contains("9"))
-                    arr.remove("9");
-                else if (t.equals("9") && arr.contains("6"))
-                    arr.remove("6");
-                else {
-                    answer += 1;
-                    for (int i = 0; i < 10; i++) {
-                        arr.add(Integer.toString(i));
-                        arr.remove(t);
-                    }
-                }
+        while (left < right) {
+            int temp = arr.get(left) + arr.get(right);
+
+            if (temp == x) {
+                left += 1;
+                right -= 1;
+                answer += 1;
             }
+            else if (temp > x)
+                right -= 1;
+            else
+                left += 1;
         }
-        
+
         System.out.println(answer);
     }
 }
