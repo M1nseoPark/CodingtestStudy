@@ -6,24 +6,36 @@ public class Main {
     public static void main(String[] arg) {
         Scanner in = new Scanner(System.in);
         
-        int a = in.nextInt();
-        int b = in.nextInt();
-        int c = in.nextInt();
-
-        ArrayList<Integer> list = new ArrayList<>();
-        int n = a * b * c;
+        int n = in.nextInt();
+        
+        List<String> arr = new ArrayList<>();
+        int answer = 1;
 
         for (int i = 0; i < 10; i++) 
-            list.add(0);
+            arr.add(Integer.toString(i));
 
-        while (n != 0) {
-            int x = n % 10;
-            list.set(x, list.get(x)+1);
+        while (n > 0) {
+            String t = Integer.toString(n % 10);
             n = n / 10;
-        }
 
-        for (int i = 0; i < 10; i++)
-            System.out.println(list.get(i));
+            if (arr.contains(t))
+                arr.remove(t);
+            else {
+                if (t.equals("6") && arr.contains("9"))
+                    arr.remove("9");
+                else if (t.equals("9") && arr.contains("6"))
+                    arr.remove("6");
+                else {
+                    answer += 1;
+                    for (int i = 0; i < 10; i++) {
+                        arr.add(Integer.toString(i));
+                        arr.remove(t);
+                    }
+                }
+            }
+        }
+        
+        System.out.println(answer);
     }
 }
 
