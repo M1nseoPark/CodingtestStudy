@@ -12,25 +12,12 @@ public class Main {
         for (int i = 0; i < n; i++) 
             arr.add(in.nextInt());
 
-        int x = in.nextInt();
-        arr.sort(Comparator.naturalOrder());
+        int v = in.nextInt();
         int answer = 0;
 
-        int left = 0;
-        int right = n-1;
-
-        while (left < right) {
-            int temp = arr.get(left) + arr.get(right);
-
-            if (temp == x) {
-                left += 1;
-                right -= 1;
+        for (int i = 0; i < n; i++) {
+            if (arr.get(i) == v)
                 answer += 1;
-            }
-            else if (temp > x)
-                right -= 1;
-            else
-                left += 1;
         }
 
         System.out.println(answer);
