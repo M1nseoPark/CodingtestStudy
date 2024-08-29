@@ -7,17 +7,26 @@ public class Main {
         Scanner in = new Scanner(System.in);
         
         int n = in.nextInt();
-        
-        List<Integer> arr = new ArrayList<>();
-        for (int i = 0; i < n; i++) 
-            arr.add(in.nextInt());
+        int k = in.nextInt();
 
-        int v = in.nextInt();
+        int[] boy = new int[7];
+        int[] girl = new int[7];
+        
+        for (int i = 0; i < n; i++) {
+            int s = in.nextInt();
+            int y = in.nextInt();
+
+            if (s == 1)
+                boy[y] += 1;
+            else
+                girl[y] += 1;
+        }
+            
         int answer = 0;
 
-        for (int i = 0; i < n; i++) {
-            if (arr.get(i) == v)
-                answer += 1;
+        for (int i = 1; i < 7; i++) {
+            answer += Math.ceil((double)boy[i] / (double)k);
+            answer += Math.ceil((double)girl[i] / (double)k);
         }
 
         System.out.println(answer);
