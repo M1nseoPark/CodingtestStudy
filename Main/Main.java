@@ -9,8 +9,8 @@ public class Main {
         int t = in.nextInt();
 
         for (int i = 0; i < t; i++) {
-            String a = in.nextLine();
-            String b = in.nextLine();
+            String a = in.next();
+            String b = in.next();
 
             if (a.length() != b.length())
                 System.out.println("Impossible");
@@ -30,12 +30,6 @@ public class Main {
                         bmap.put(b.charAt(j), 1);
                 }
 
-                for (Character j: amap.keySet())
-	                System.out.println(j + amap.get(j));
-
-                for (Character j: bmap.keySet())
-	                System.out.println(j + bmap.get(j));
-
                 if (amap.equals(bmap)) 
                     System.out.println("Possible");
                 else
@@ -44,4 +38,3 @@ public class Main {
         }
     }
 }
-
