@@ -6,30 +6,42 @@ public class Main {
     public static void main(String[] arg) {
         Scanner in = new Scanner(System.in);
         
-        int n = in.nextInt();
-        int k = in.nextInt();
+        int t = in.nextInt();
 
-        int[] boy = new int[7];
-        int[] girl = new int[7];
-        
-        for (int i = 0; i < n; i++) {
-            int s = in.nextInt();
-            int y = in.nextInt();
+        for (int i = 0; i < t; i++) {
+            String a = in.nextLine();
+            String b = in.nextLine();
 
-            if (s == 1)
-                boy[y] += 1;
-            else
-                girl[y] += 1;
+            if (a.length() != b.length())
+                System.out.println("Impossible");
+            else {
+                HashMap<Character, Integer> amap = new HashMap<>();
+                HashMap<Character, Integer> bmap = new HashMap<>();
+
+                for (int j = 0; j < a.length(); j++) {
+                    if (amap.containsKey(a.charAt(j)))
+                        amap.put(a.charAt(j), amap.get(a.charAt(j)) + 1);
+                    else
+                        amap.put(a.charAt(j), 1);
+                    
+                    if (bmap.containsKey(b.charAt(j)))
+                        bmap.put(b.charAt(j), bmap.get(b.charAt(j)) + 1);
+                    else
+                        bmap.put(b.charAt(j), 1);
+                }
+
+                for (Character j: amap.keySet())
+	                System.out.println(j + amap.get(j));
+
+                for (Character j: bmap.keySet())
+	                System.out.println(j + bmap.get(j));
+
+                if (amap.equals(bmap)) 
+                    System.out.println("Possible");
+                else
+                    System.out.println("Impossible");
+            }
         }
-            
-        int answer = 0;
-
-        for (int i = 1; i < 7; i++) {
-            answer += Math.ceil((double)boy[i] / (double)k);
-            answer += Math.ceil((double)girl[i] / (double)k);
-        }
-
-        System.out.println(answer);
     }
 }
 
