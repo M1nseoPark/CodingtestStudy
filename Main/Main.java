@@ -6,38 +6,34 @@ public class Main {
     public static void main(String[] arg) {
         Scanner in = new Scanner(System.in);
 
-        String a = in.nextLine();
-        String b = in.nextLine();
-        int answer = 0;
+        String str = in.nextLine();
+        int m = in.nextInt();
 
-        HashMap<Character, Integer> amap = new HashMap<>();
-        HashMap<Character, Integer> bmap = new HashMap<>();
+        StringBuilder left = new StringBuilder();
+        left.append(str);
+        StringBuilder right = new StringBuilder();
 
-        for (int i = 0; i < a.length(); i++) {
-            if (amap.containsKey(a.charAt(i)))
-                amap.put(a.charAt(i), amap.get(a.charAt(i)) + 1);
-            else
-                amap.put(a.charAt(i), 1);
+        for (int i = 0; i < m; i++) {
+            String a = in.next();
+            String b = "";
+
+            if (a.equals("L") && left.length() != 0)  {
+                right.insert(0, left.charAt(left.length()-1));
+                left.deleteCharAt(left.length()-1);
+            }
+            else if (a.equals("D") && right.length() != 0) {
+                left.append(right.charAt(0));
+                right.deleteCharAt(0);
+            }
+            else if (a.equals("B") && left.length() != 0) {
+                left.deleteCharAt(left.length()-1);
+            }
+            else if (a.equals("P")) {
+                b = in.next();
+                left.append(b);
+            }
         }
-
-        for (int i = 0; i < b.length(); i++) {
-            if (bmap.containsKey(b.charAt(i)))
-                bmap.put(b.charAt(i), bmap.get(b.charAt(i)) + 1);
-            else
-                bmap.put(b.charAt(i), 1);
-        }
-
-        for (Character c: amap.keySet())
-            if (!bmap.containsKey(c))
-                answer += amap.get(c);
-            else
-                answer += Math.abs(amap.get(c) - bmap.get(c));
         
-        for (Character c: bmap.keySet())
-            if (!amap.containsKey(c))
-                answer += bmap.get(c);
-
-        
-        System.out.println(answer);
+        System.out.println(left + "" + right);
     }
 }
