@@ -1,0 +1,7 @@
+SELECT USER_ID, NICKNAME, (CITY || ' ' || STREET_ADDRESS1 || ' ' || STREET_ADDRESS2) AS "전체주소", (substr(TLNO, 1, 3) || '-' || substr(TLNO, 4, 4) || '-' || substr(TLNO, 8, 4)) as "전화번호"
+from (select A.WRITER_ID USER_ID, B.NICKNAME NICKNAME, B.CITY CITY, B.STREET_ADDRESS1 STREET_ADDRESS1, B.STREET_ADDRESS2 STREET_ADDRESS2, B.TLNO TLNO
+     from USED_GOODS_BOARD A inner join USED_GOODS_USER B
+     on A.WRITER_ID = B.USER_ID
+     group by A.WRITER_ID, B.NICKNAME, B.CITY, B.STREET_ADDRESS1, B.STREET_ADDRESS2, B.TLNO
+     having count(*) >= 3)
+order by USER_ID desc
