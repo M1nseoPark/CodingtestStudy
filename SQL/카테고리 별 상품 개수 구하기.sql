@@ -1,0 +1,5 @@
+SELECT CATEGORY, count(PRODUCT_ID) as PRODUCTS
+from (select substr(PRODUCT_CODE, 0, 2) as CATEGORY, PRODUCT_ID
+     from PRODUCT)
+group by CATEGORY
+order by CATEGORY
